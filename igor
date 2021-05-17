@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+import click
+import time 
+import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs
+import boto3
+
+
+@click.group()
+def igor_cli():
+    pass
+
+@click.command(name="get-logs")
+@click.option(
+    "--app",
+    nargs=1,
+    required=True,
+    help="Enter Application Name",
+)
+@click.option(
+    "--environment", nargs=1, required=True, help="Specify AWS Account Number"
+)
+@click.option(
+    "--query",
+    nargs=1,
+    default="fields @timestamp, @message | sort @timestamp desc | limit 2000",
+    required=False,
+    help="Enter Query",
+)
+@click.option(
+    "--hours",
+    nargs=1,
+    default=3,
+    required=False,
+    help="How far back in hours you want to go",
+)
+def get_logs(app, environment, query, hours):
+    d3b_cli_igor.log_ops.app_logs.get_app_logs(app, environment, query, hours)
+
+igor_cli.add_command(get_logs)
+
+if __name__ == "__main__":
+    igor_cli()

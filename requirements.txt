@@ -1,0 +1,6 @@
+numpy
+boto3
+colorlog
+click
+pyyaml
+datetime
