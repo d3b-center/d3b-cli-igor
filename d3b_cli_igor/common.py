@@ -23,7 +23,7 @@ def setup(client_name=""):
     client = boto3.client(client_name)
     return client
 
-def printProgressBar (iteration, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+def progress_bar(iteration, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
     print(f'\r{prefix} | {iteration} {suffix}', end = printEnd)
 
 def list_objects(bucket_name,s3_client,next_marker):

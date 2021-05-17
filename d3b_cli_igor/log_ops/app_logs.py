@@ -19,13 +19,16 @@ def get_app_logs(app, environment, query, hours):
         queryString=query,
         limit=200
     )
+    count=0
     while (result == ""):
         results = client.get_query_results(queryId=response['queryId'])
         if(results['status'] == "Complete"):
+            count=0
             result = results['results']
             d3b_cli_igor.common.logger.info("Printing Results:")
         else:
-            d3b_cli_igor.common.logger.info("Query in progress")
+            count +=1
+            d3b_cli_igor.common.progress_bar(count, "Query in progress... ", " second(s)")
             time.sleep(1)
     for item in results["results"]:
         for result in item:
