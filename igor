@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import click
 import time 
-import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs
+import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment
 import boto3
 
 
@@ -22,7 +22,7 @@ def igor_cli():
 @click.option(
     "--query",
     nargs=1,
-    default="fields @timestamp, @message | sort @timestamp desc | limit 2000",
+    default="fields @timestamp, @message | sort @timestamp desc | limit 20",
     required=False,
     help="Enter Query",
 )
@@ -34,9 +34,28 @@ def igor_cli():
     help="How far back in hours you want to go",
 )
 def get_logs(app, environment, query, hours):
+    print(query)
     d3b_cli_igor.log_ops.app_logs.get_app_logs(app, environment, query, hours)
 
+
+@click.command(name="restart")
+@click.option(
+    "--app",
+    nargs=1,
+    required=True,
+    help="Enter Application Name",
+)
+@click.option(
+    "--environment", nargs=1, required=True, help="Specify Environment"
+)
+@click.option(
+    "--account", nargs=1, required=True, help="Specify AWS Account"
+)
+def restart(app, environment, account):
+    d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
+
 igor_cli.add_command(get_logs)
+igor_cli.add_command(restart)
 
 if __name__ == "__main__":
     igor_cli()
