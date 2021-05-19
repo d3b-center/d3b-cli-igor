@@ -87,21 +87,21 @@ def get_logger(dunder_name, testing_mode, log_format) -> logging.Logger:
         logger.setLevel(logging.INFO)
 
     # Output full log
-    fh = logging.FileHandler('logs/app.log')
+    fh = logging.FileHandler('/tmp/igor/logs/app.log')
     fh.setLevel(logging.DEBUG)
     formatter = logging.Formatter(log_format)
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
     # Output warning log
-    fh = logging.FileHandler('logs/app.warning.log')
+    fh = logging.FileHandler('/tmp/igor/logs/app.warning.log')
     fh.setLevel(logging.WARNING)
     formatter = logging.Formatter(log_format)
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
     # Output error log
-    fh = logging.FileHandler('logs/app.error.log')
+    fh = logging.FileHandler('/tmp/igor/logs/app.error.log')
     fh.setLevel(logging.ERROR)
     formatter = logging.Formatter(log_format)
     fh.setFormatter(formatter)
