@@ -4,6 +4,7 @@ import sys
 import colorlog
 import numpy
 import boto3
+from pathlib import Path
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -86,6 +87,7 @@ def get_logger(dunder_name, testing_mode, log_format) -> logging.Logger:
     else:
         logger.setLevel(logging.INFO)
 
+    Path("/tmp/igor/logs").mkdir(parents=True, exist_ok=True)
     # Output full log
     fh = logging.FileHandler('/tmp/igor/logs/app.log')
     fh.setLevel(logging.DEBUG)
