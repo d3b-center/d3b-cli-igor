@@ -9,5 +9,8 @@ logger = d3b_cli_igor.common.get_logger(
 
 def deploy_jenkinsfile(account_name, organization, region, environment):
     d3b_cli_igor.deploy_ops.generate_config.generate(account_name, organization, region, environment) 
+    logger.info("Generating deployment script")
     os.system('./tmp_deploy_application')
+    logger.info("Cleaning Up")
+    os.remove('./tmp_deploy_application')
 
