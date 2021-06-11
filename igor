@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import click
-import time 
-import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment
+import time
+import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config
 import boto3
 
 
 @click.group()
 def igor_cli():
     pass
+
 
 @click.command(name="get-logs")
 @click.option(
@@ -34,8 +35,18 @@ def igor_cli():
     help="How far back in hours you want to go",
 )
 def get_logs(app, environment, query, hours):
-    print(query)
     d3b_cli_igor.log_ops.app_logs.get_app_logs(app, environment, query, hours)
+
+
+@click.command(name="deploy_jenkinsfile")
+@click.option("--account_name", nargs=1, required=True)
+@click.option("--organization", nargs=1, required=True)
+@click.option("--region", nargs=1, required=True)
+@click.option("--environment", nargs=1, required=True)
+def deploy_jenkinsfile(account_name, organization, region, environment):
+    d3b_cli_igor.deploy_ops.deploy.deploy_jenkinsfile(
+        account_name, organization, region, environment
+    )
 
 
 @click.command(name="restart")
@@ -45,17 +56,15 @@ def get_logs(app, environment, query, hours):
     required=True,
     help="Enter Application Name",
 )
-@click.option(
-    "--environment", nargs=1, required=True, help="Specify Environment"
-)
-@click.option(
-    "--account", nargs=1, required=True, help="Specify AWS Account"
-)
+@click.option("--environment", nargs=1, required=True, help="Specify Environment")
+@click.option("--account", nargs=1, required=True, help="Specify AWS Account")
 def restart(app, environment, account):
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
+
 igor_cli.add_command(get_logs)
 igor_cli.add_command(restart)
+igor_cli.add_command(deploy_jenkinsfile)
 
 if __name__ == "__main__":
     igor_cli()
