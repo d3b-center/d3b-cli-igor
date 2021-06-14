@@ -26,3 +26,13 @@ This example with create a new deployment for the ecs service.
 ~~~
 igor restart --app kf-cbioportal --environment qa --account kf-strides
 ~~~
+
+deploy - deploy application from current directory. This operation supports "ecs_service_type_1" and "aws_infra_ec2_module" deployments.
+
+Usage:
+------
+
+~~~
+igor deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode deploy 
+igor deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy
+~~~
