@@ -38,14 +38,16 @@ def get_logs(app, environment, query, hours):
     d3b_cli_igor.log_ops.app_logs.get_app_logs(app, environment, query, hours)
 
 
-@click.command(name="deploy_jenkinsfile")
+@click.command(name="deploy")
 @click.option("--account_name", nargs=1, required=True)
 @click.option("--organization", nargs=1, required=True)
 @click.option("--region", nargs=1, required=True)
 @click.option("--environment", nargs=1, required=True)
-def deploy_jenkinsfile(account_name, organization, region, environment):
-    d3b_cli_igor.deploy_ops.deploy.deploy_jenkinsfile(
-        account_name, organization, region, environment
+@click.option("--config_file", nargs=1, default="Jenkinsfile", required=False)
+@click.option("--mode", nargs=1, default="deploy", required=False)
+def deploy(account_name, organization, region, environment, config_file, mode):
+    d3b_cli_igor.deploy_ops.deploy.deploy(
+        account_name, organization, region, environment, config_file, mode
     )
 
 
@@ -64,7 +66,7 @@ def restart(app, environment, account):
 
 igor_cli.add_command(get_logs)
 igor_cli.add_command(restart)
-igor_cli.add_command(deploy_jenkinsfile)
+igor_cli.add_command(deploy)
 
 if __name__ == "__main__":
     igor_cli()
