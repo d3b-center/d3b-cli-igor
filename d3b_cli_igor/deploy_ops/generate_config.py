@@ -53,7 +53,7 @@ def generate(account_name, organization, region, environment, config_file, mode)
         if "aws_infra_ec2_module" in line:
             f.write('export architecture_type="aws-infra-ec2"')
             f.write("\n")
-    template = templateEnv.get_template("templates/deployment.tmpl")
+    template = templateEnv.get_template("templates/"+mode+".tmpl")
     st = os.stat("./tmp_" + mode + "_application")
     os.chmod("./tmp_" + mode + "_application", st.st_mode | stat.S_IEXEC)
     output = template.render()

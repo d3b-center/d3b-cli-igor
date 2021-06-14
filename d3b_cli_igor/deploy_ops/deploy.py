@@ -13,7 +13,7 @@ def deploy(account_name, organization, region, environment, config_file, mode):
         account_name, organization, region, environment, config_file, mode
     )
     logger.info("Generating deployment script")
-    os.system("./tmp_deploy_application")
+    os.system("./tmp_"+mode+"_application")
 
     logger.info("Cleaning Up")
-    os.remove('./tmp_deploy_application')
+    os.remove("./tmp_"+mode+"_application")
