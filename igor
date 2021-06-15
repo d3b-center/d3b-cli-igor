@@ -64,9 +64,19 @@ def restart(app, environment, account):
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
 
+@click.command()
+@click.option('--project',nargs=1,required=True)
+@click.option('--region',nargs=1,required=True)
+@click.option('--account_name',nargs=1,required=True)
+@click.option('--environment',nargs=1,required=True)
+@click.option('--module',nargs=1,required=True)
+def generate_tf_module_files(project,region,account_name,environment,module):
+
+
 igor_cli.add_command(get_logs)
 igor_cli.add_command(restart)
 igor_cli.add_command(deploy)
+igor_cli.add_command(generate_tf_module_files)
 
 if __name__ == "__main__":
     igor_cli()
