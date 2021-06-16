@@ -71,6 +71,7 @@ def restart(app, environment, account):
 @click.option('--environment',nargs=1,required=True)
 @click.option('--module',nargs=1,required=True)
 def generate_tf_module_files(project,region,account_name,environment,module):
+    d3b_cli_igor.deploy_ops.generate_config.generate_tf_module_files(project,region,account_name, environment,module)
 
 
 igor_cli.add_command(get_logs)

@@ -2,7 +2,7 @@ import os, sys, pathlib
 import click
 import stat
 import d3b_cli_igor.common
-import jinja2
+import jinja2, json
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 logger = d3b_cli_igor.common.get_logger(
@@ -63,7 +63,7 @@ def generate_tf_module_files(project,region,account_name,environment,module):
     account_information = {}
     state_files_bucket = ""
 
-    with open('account_info.json') as json_file:
+    with open(os.getcwd()+'/account_info.json') as json_file:
         account_information = json.load(json_file)
     backend_file = jinja2.FileSystemLoader(searchpath="./")
     templateEnv = jinja2.Environment(loader=FileSystemLoader('templates/'))
