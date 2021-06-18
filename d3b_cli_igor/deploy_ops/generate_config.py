@@ -43,10 +43,6 @@ def generate(account_name, organization, region, environment, config_file, mode)
         if "ecs_service_type_1" in line:
             f.write('export architecture_type="aws-ecs-service-type-1"')
             f.write("\n")
-            f.write('export cloud_platform="aws"')
-            f.write("\n")
-            f.write("export TF_VAR_organization=" + organization)
-            f.write("\n")
         if "aws_infra_ec2_module" in line:
             f.write('export architecture_type="aws-infra-ec2"')
             f.write("\n")
