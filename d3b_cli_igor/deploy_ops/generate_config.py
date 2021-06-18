@@ -33,8 +33,6 @@ def generate(account_name, organization, region, environment, config_file, mode)
     f.write("\n")
     f.write('export TF_VAR_organization="' + organization + '"')
     f.write("\n")
-    f.write("export branch=master")
-    f.write("\n")
     f.write("export mode=" + mode)
     f.write("\n")
     for line in lines:
@@ -51,6 +49,9 @@ def generate(account_name, organization, region, environment, config_file, mode)
             f.write("\n")
         if "aws_infra_ec2_module" in line:
             f.write('export architecture_type="aws-infra-ec2"')
+            f.write("\n")
+        if "aws_infra_lambda_module" in line:
+            f.write('export architecture_type="aws-infra-lambda"')
             f.write("\n")
     template = templateEnv.get_template("templates/"+mode+".tmpl")
     st = os.stat("./tmp_" + mode + "_application")
