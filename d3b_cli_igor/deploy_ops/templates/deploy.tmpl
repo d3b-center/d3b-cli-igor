@@ -3,8 +3,8 @@ rm -rf .config
 mkdir .tmp
 cp -rf * .tmp/
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
-echo "git clone -b $TF_VAR_branch git@github.com:kids-first/$architecture_type.git .tmp/.standard"
-git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp/.standard
+echo "git clone --depth=1 -b master git@github.com:kids-first/$architecture_type.git .tmp/.standard"
+git clone --depth=1 -b feature/modify-elb-bucket git@github.com:kids-first/$architecture_type-module.git .tmp/.standard
 git clone --depth=1 -b master git@github.com:d3b-center/aws-infra-deployment.git .tmp/.deployment
 cp -rf .tmp/.deployment/bin/* .tmp/
 cp -rf .tmp/.standard/ .tmp/
@@ -30,7 +30,7 @@ fi
 
 if [ "${architecture_type}" == "aws-infra-ec2" ]; then
 	cd .tmp/.config/
-	./setup_files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --user_data "$user_data"
+	./setup_files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --user_data "$TF_VAR_user_data"
 	cd ../
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type-module $TF_VAR_organization null
 fi
