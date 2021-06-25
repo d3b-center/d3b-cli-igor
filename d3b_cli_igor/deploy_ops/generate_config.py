@@ -33,6 +33,8 @@ def generate(account_name, organization, region, environment, config_file, mode)
     f.write("\n")
     f.write('export TF_VAR_organization="' + organization + '"')
     f.write("\n")
+    f.write('export TF_VAR_owner="' + organization + '"')
+    f.write("\n")
     f.write("export mode=" + mode)
     f.write("\n")
     for line in lines:
