@@ -56,7 +56,7 @@ def generate(account_name, organization, region, environment, config_file, mode)
         if "aws_infra_lambda_module" in line:
             f.write('export architecture_type="aws-infra-lambda"')
             f.write("\n")
-    template = templateEnv.get_template("templates/"+mode+".tmpl")
+    template = templateEnv.get_template("templates/deploy.tmpl")
     st = os.stat("./tmp_" + mode + "_application")
     os.chmod("./tmp_" + mode + "_application", st.st_mode | stat.S_IEXEC)
     output = template.render()
