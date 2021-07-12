@@ -14,5 +14,5 @@ def deploy(account_name, organization, region, environment, config_file, mode):
     logger.info("Generating deployment script")
     os.system("./tmp_"+mode+"_application")
 
-    logger.info("Cleaning Up")
-    os.remove("./tmp_"+mode+"_application")
+#    logger.info("Cleaning Up")
+#    os.remove("./tmp_"+mode+"_application")
