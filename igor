@@ -54,13 +54,13 @@ def deploy(account_name, organization, region, environment, config_file, mode):
 @click.option("--name", nargs=1, required=False)
 @click.option("--browser_type", default="", nargs=1, required=False)
 @click.option("--list_shortcuts", is_flag=True, required=False)
-@click.option("--check_build", is_flag=True, required=False)
-def shortcuts(name, browser_type, list_shortcuts, check_build):
+def shortcuts(name, browser_type, list_shortcuts):
     d3b_cli_igor.utils.shortcuts.browser(name, browser_type, list_shortcuts)
 
 @click.command(name="check_build")
-def check_build():
-    d3b_cli_igor.utils.shortcuts.check_build()
+@click.option("--account", nargs=1, required=True)
+def check_build(account):
+    d3b_cli_igor.utils.shortcuts.check_build(account)
 
 @click.command(name="restart")
 @click.option(

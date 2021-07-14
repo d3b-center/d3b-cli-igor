@@ -25,6 +25,6 @@ def browser(name, browser_type="", list_shortcuts=False):
         except Exception as e:
             logger.error("Could not find file: " + str(e))
 
-def check_build():
+def check_build(account):
     path = os.getcwd()
-    os.system(path+"/"+check_build_script)
+    os.system(path+"/"+check_build_script+" "+account)
