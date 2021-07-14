@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+if [ -z $1 ]; then
+  echo "Enter account: ["chopd3bPrd","kf-strides"]"
+  exit 1
+fi
+if [ $1 == "chopd3bPrd" ]; then
+ host="aws-infra-jenkins-service.d3b.io"
+fi
+if [ $1 == "kf-strides" ]; then
+ host="aws-infra-jenkins-service.kf-strides.org"
+fi
+if [ -z $host ]; then
+   echo "Could not find environment"
+   exit 1
+fi
+branch=$(git rev-parse --abbrev-ref HEAD|sed 's/\//\%252F/')
+open https://$host/job/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')-$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')/job/$branch/lastBuild/
