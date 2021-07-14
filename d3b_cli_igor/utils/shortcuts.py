@@ -13,11 +13,13 @@ def browser(name, browser_type="", list_shortcuts=False):
     stream = open(path+"/"+config_file, 'r')
     dictionary = yaml.load(stream, Loader=yaml.FullLoader)
     if (list_shortcuts):
-        print(dictionary)
-    try:
-        if(browser_type == ""): 
-            os.system("open " + dictionary[name])
-        else:
-            os.system("open \"" + browser_type + "\" " + dictionary[name])
-    except Exception as e:
-        librarian.common.logger.error("Could not find file: " + str(e))
+        for k, v in dictionary.items():
+            logger.info(k + " : " + v)
+    else:
+        try:
+            if(browser_type == ""): 
+                os.system("open " + dictionary[name])
+            else:
+                os.system("open \"" + browser_type + "\" " + dictionary[name])
+        except Exception as e:
+            logger.error("Could not find file: " + str(e))

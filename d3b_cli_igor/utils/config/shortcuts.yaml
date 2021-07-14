@@ -1,3 +1,5 @@
 ---
 kf-jenkins: "https://aws-infra-jenkins-service.kf-strides.org/"
 d3b-jenkins: "https://aws-infra-jenkins-service.d3b.io/"
+d3b-auth0: "https://d3b-center.auth0.com/samlp/0jJ4WoIhKFOgOFQQb8u27hmXHL0nZSs3"
+devops-notion: "https://www.notion.so/d3b/DevOps-82f3ee0caab443f9bb7562295b6d4e1f"
