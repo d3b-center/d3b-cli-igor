@@ -54,9 +54,13 @@ def deploy(account_name, organization, region, environment, config_file, mode):
 @click.option("--name", nargs=1, required=False)
 @click.option("--browser_type", default="", nargs=1, required=False)
 @click.option("--list_shortcuts", is_flag=True, required=False)
-def shortcuts(name, browser_type, list_shortcuts):
+@click.option("--check_build", is_flag=True, required=False)
+def shortcuts(name, browser_type, list_shortcuts, check_build):
     d3b_cli_igor.utils.shortcuts.browser(name, browser_type, list_shortcuts)
 
+@click.command(name="check_build")
+def check_build():
+    d3b_cli_igor.utils.shortcuts.check_build()
 
 @click.command(name="restart")
 @click.option(
@@ -86,6 +90,7 @@ igor_cli.add_command(restart)
 igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
 igor_cli.add_command(shortcuts)
+igor_cli.add_command(check_build)
 
 if __name__ == "__main__":
     igor_cli()
