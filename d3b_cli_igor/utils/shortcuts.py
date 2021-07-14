@@ -6,11 +6,11 @@ logger = d3b_cli_igor.common.get_logger(
     __name__, testing_mode=False, log_format="detailed"
 )
 
-config_file="d3b_cli_igor/utils/config/shortcuts.yaml"
-check_build_script="d3b_cli_igor/utils/scripts/check_build"
+config_file="config/shortcuts.yaml"
+check_build_script="scripts/check_build"
 
 def browser(name, browser_type="", list_shortcuts=False):
-    path = os.getcwd()
+    path = os.path.dirname(__file__)
     stream = open(path+"/"+config_file, 'r')
     dictionary = yaml.load(stream, Loader=yaml.FullLoader)
     if (list_shortcuts):
