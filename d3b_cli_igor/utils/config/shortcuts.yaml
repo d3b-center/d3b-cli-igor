@@ -1,2 +1,3 @@
 ---
-kf-jenkins: "https://aws-infra-jenkins-service.kf-strides.org/manage"
+kf-jenkins: "https://aws-infra-jenkins-service.kf-strides.org/"
+d3b-jenkins: "https://aws-infra-jenkins-service.d3b.io/"
