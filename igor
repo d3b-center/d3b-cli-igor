@@ -62,6 +62,10 @@ def shortcuts(name, browser_type, list_shortcuts):
 def check_build(account):
     d3b_cli_igor.utils.shortcuts.check_build(account)
 
+@click.command(name="awslogin")
+def awslogin():
+    d3b_cli_igor.utils.shortcuts.awslogin()
+
 @click.command(name="restart")
 @click.option(
     "--app",
@@ -91,6 +95,7 @@ igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
 igor_cli.add_command(shortcuts)
 igor_cli.add_command(check_build)
+igor_cli.add_command(awslogin)
 
 if __name__ == "__main__":
     igor_cli()

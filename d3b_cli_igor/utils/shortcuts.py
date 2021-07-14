@@ -8,9 +8,10 @@ logger = d3b_cli_igor.common.get_logger(
 
 config_file="config/shortcuts.yaml"
 check_build_script="scripts/check_build"
+awslogin_script="scripts/awslogin"
+path = os.path.dirname(__file__)
 
 def browser(name, browser_type="", list_shortcuts=False):
-    path = os.path.dirname(__file__)
     stream = open(path+"/"+config_file, 'r')
     dictionary = yaml.load(stream, Loader=yaml.FullLoader)
     if (list_shortcuts):
@@ -26,5 +27,7 @@ def browser(name, browser_type="", list_shortcuts=False):
             logger.error("Could not find file: " + str(e))
 
 def check_build(account):
-    path = os.getcwd()
     os.system(path+"/"+check_build_script+" "+account)
+
+def awslogin():
+    os.system(path+"/"+awslogin_script)
