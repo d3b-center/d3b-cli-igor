@@ -53,9 +53,9 @@ def deploy(account_name, organization, region, environment, config_file, mode):
 @click.command(name="shortcuts")
 @click.option("--name", nargs=1, required=False)
 @click.option("--browser_type", default="", nargs=1, required=False)
-@click.option("--list_shortcuts", is_flag=True, required=False)
-def shortcuts(name, browser_type, list_shortcuts):
-    d3b_cli_igor.utils.shortcuts.browser(name, browser_type, list_shortcuts)
+@click.option("--show", is_flag=True, required=False)
+def shortcuts(name, browser_type, show):
+    d3b_cli_igor.utils.shortcuts.browser(name, browser_type, show)
 
 @click.command(name="check_build")
 @click.option("--account", nargs=1, required=True)
