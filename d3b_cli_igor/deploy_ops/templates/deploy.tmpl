@@ -17,7 +17,7 @@ echo "$account_name"
 echo "$region"
 
 cd .tmp/.config/
-echo "Architecture Type: "${architecture_type}
+echo "Architecture Type: "${architecture_type}"
 if [ "${architecture_type}" == "aws-ecs-service-type-1" ]; then
 	./setup_files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
 	cd ../
