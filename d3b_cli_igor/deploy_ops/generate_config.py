@@ -21,6 +21,8 @@ def generate(account_name, organization, region, environment, config_file, mode)
     f = open("tmp_" + mode + "_application", "w")
 
     logger.info("Generating file")
+    f.write("#!/bin/bash")
+    f.write("\n")
     f.write("set -e")
     f.write("\n")
     f.write('export account_name="' + account_name + '"')
