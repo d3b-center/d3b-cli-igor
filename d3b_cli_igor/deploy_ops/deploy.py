@@ -11,7 +11,7 @@ def deploy(account_name, organization, region, environment, config_file, mode):
     d3b_cli_igor.deploy_ops.generate_config.generate(
         account_name, organization, region, environment, config_file, mode
     )
-    logger.info("Generating deployment script")
+    logger.info("Executing deployment script")
     os.system("./tmp_"+mode+"_application")
 
 #    logger.info("Cleaning Up")

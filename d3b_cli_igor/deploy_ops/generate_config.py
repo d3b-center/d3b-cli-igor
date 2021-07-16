@@ -2,7 +2,7 @@ import os, sys, pathlib
 import click
 import stat
 import d3b_cli_igor.common
-import jinja2, json
+import jinja2, json, boto3
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 logger = d3b_cli_igor.common.get_logger(
@@ -38,6 +38,33 @@ def generate(account_name, organization, region, environment, config_file, mode)
     f.write('export TF_VAR_owner="' + organization + '"')
     f.write("\n")
     f.write("export mode=" + mode)
+    f.write("\n")
+    client = boto3.client("sts")
+    f.write("export TF_VAR_account_id="+client.get_caller_identity()["Account"])
+    f.write("\n")
+    for line in lines:
+        if "project_name" in line or "projectName" in line:
+            name, var = line.partition("=")[::2]
+            f.write("export TF_VAR_" + name.strip() + "=" + var.strip() + "")
+    f.write("""
+     S3_SECRETS_BUCKET_PREFIX="${TF_VAR_organization}-${TF_VAR_account_id}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}"
+    export S3_SECRETS_BUCKET_PREFIX
+    echo "Secrets Bucket: $S3_SECRETS_BUCKET_PREFIX"
+    echo "Entrypoint Command: $ENTRYPOINT_COMMAND"
+    aws s3 sync s3://"$S3_SECRETS_BUCKET_PREFIX"/ secrets/
+    if ls secrets/*.env 1> /dev/null 2>&1; then
+        echo "Setting environmental variables..."
+        export $(cat secrets/*.env | xargs) > /dev/null 2>&1;
+    else
+        echo "INFO: Could not find *.env files"
+    fi
+    if ls secrets/*.secrets 1> /dev/null 2>&1; then
+        echo "Setting environmental variables..."
+        export $(cat secrets/*.secrets | xargs) > /dev/null 2>&1;
+    else
+        echo "INFO: Could not find *.secrets files"
+    fi
+    rm -rf secrets""")
     f.write("\n")
     for line in lines:
         if "=" in line and "shared-libraries" not in line:
