@@ -79,7 +79,7 @@ def restart(app, environment, account):
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
 
-@click.command()
+@click.command(name="generate-tf-module-files")
 @click.option('--project',nargs=1,required=True)
 @click.option('--region',nargs=1,required=True)
 @click.option('--account_name',nargs=1,required=True)
