@@ -1,0 +1,19 @@
+---
+kf-jenkins: 
+        name: "https://aws-infra-jenkins-service.kf-strides.org/"
+        description: "Jenkins Server in KidsFirst Strides account"
+d3b-jenkins: 
+        name: "https://aws-infra-jenkins-service.d3b.io/"
+        description: "Jenkins Server in CHOPD3bPRD account"
+d3b-auth0: 
+        name: "https://d3b-center.auth0.com/samlp/0jJ4WoIhKFOgOFQQb8u27hmXHL0nZSs3"
+        description: "AWS Auth0 login screen"
+devops-notion: 
+        name: "https://www.notion.so/d3b/DevOps-82f3ee0caab443f9bb7562295b6d4e1f"
+        description: "DevOps Notion.so Page"
+github-d3bcenter:
+        name: "https://github.com/d3b-center"
+        description: "D3b Center Github Account"
+github-kidsfirst:
+        name: "https://github.com/kids-first"
+        description: "KidsFirst Github Account"

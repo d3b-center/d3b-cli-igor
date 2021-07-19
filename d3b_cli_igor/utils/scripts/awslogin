@@ -1,0 +1,29 @@
+#!/bin/bash
+echo "[DEFAULT]
+idp_url=https://d3b-center.auth0.com
+client_id=YWUQKnBQ25J9htQ7AWRByzhHf6lxrbQN
+
+" > ~/.saml-login
+saml-login aws-assume-role --show >> ~/.saml-login
+cat ~/.saml-login | grep -v DEFAULT | grep "\[" | awk -F\[ '{ print $2}' | awk -F\] '{print $1}' > ~/.saml_menu
+if [ ! -z $1 ]; then
+   if [[ $1 == "short" ]]; then
+   while IFS= read -r line; do
+       echo "$line"
+   done < ~/.saml_menu
+   else
+	saml-login -c $1 aws-assume-role
+   fi
+else
+ echo "Available logins:"
+ count=1
+ while IFS= read -r line; do
+	menu=$menu"|"$line
+	echo "$count) awslogin $line"
+	count=$((count+1))
+ done < ~/.saml_menu
+ echo "Please choose your option: "
+ read option
+ saml-login -c `echo $menu | cut -d'|' -f $((option +1)) | awk -F"[" '{print $1}'` aws-assume-role
+fi
+

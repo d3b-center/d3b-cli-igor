@@ -4,3 +4,5 @@ colorlog
 click
 pyyaml
 datetime
+aws-ssm-tools
+auth0-login
