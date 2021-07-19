@@ -11,7 +11,7 @@ logger = d3b_cli_igor.common.get_logger(
 
 def generate(account_name, organization, region, environment, config_file, mode):
     templateEnv = jinja2.Environment(
-        loader=FileSystemLoader(pathlib.Path(__file__).parent.absolute())
+        loader=FileSystemLoader(str(pathlib.Path(__file__).parent.absolute()))
     )
     path = os.getcwd()
     logger.info("Checking for "+config_file)
