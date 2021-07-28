@@ -20,42 +20,42 @@ echo "$region"
 cd .tmp/.config/
 echo "Architecture Type: ${architecture_type}"
 if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
-	./setup_files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
 	cd ../
 	{% if mode == 'build' %}
-	./build_standard.sh $account_name $region null $TF_VAR_projectName '.config' $architecture_type $TF_VAR_organization
-	./publish_standard.sh $account_name $region $TF_VAR_projectName '.config' $architecture_type 
+	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization
+	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
-	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type $TF_VAR_organization null
+	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
 	{% endif %}
 fi
 
 if [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
-	./setup_files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app  --alb_name $TF_VAR_alb_name
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app  --alb_name $TF_VAR_alb_name
 	cd ../
 	{% if mode == 'destroy' %}
-	./deploy_dependencies.sh $TF_VAR_projectName .config $TF_VAR_dependencies 
-	./build_standard.sh $account_name $region null $TF_VAR_projectName '.config' $architecture_type $TF_VAR_organization
-	./publish_standard.sh $account_name $region $TF_VAR_projectName '.config' $architecture_type 
+	./deploy_dependencies.sh $TF_VAR_projectName$TF_VAR_projectPrefix .config $TF_VAR_dependencies 
+	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization
+	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% endif %}
-	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type $TF_VAR_organization null
+	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
 fi
 
 if [[ "${architecture_type}" == "aws-infra-ec2" ]]; then
-	./setup_files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --user_data "$TF_VAR_user_data"
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --user_data "$TF_VAR_user_data"
 	cd ../
-	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type-module $TF_VAR_organization null
+	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type-module $TF_VAR_organization null
 fi
 
 
 if [ "${architecture_type}" == "aws-infra-lambda" ]; then
-	igor generate-tf-module-files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --module aws-infra-lambda-module
+	igor generate-tf-module-files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --module aws-infra-lambda-module
 	cd ../
-	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type-module $TF_VAR_organization null
+	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type-module $TF_VAR_organization null
 fi
 
 if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
-	aws ecs wait services-stable --cluster $organization-$vpc_prefix-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName --region $region 
+	aws ecs wait services-stable --cluster $organization-$vpc_prefix-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix --region $region 
 fi
 cd ../
 rm -rf .tmp
