@@ -25,8 +25,9 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
 	{% if mode == 'build' %}
 	./build_standard.sh $account_name $region null $TF_VAR_projectName '.config' $architecture_type $TF_VAR_organization
 	./publish_standard.sh $account_name $region $TF_VAR_projectName '.config' $architecture_type 
-	{% endif %}
+	{% else %}
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type $TF_VAR_organization null
+	{% endif %}
 fi
 
 if [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
