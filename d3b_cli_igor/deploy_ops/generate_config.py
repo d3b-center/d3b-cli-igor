@@ -88,7 +88,7 @@ def generate(account_name, organization, region, environment, config_file, mode)
     template = templateEnv.get_template("templates/deploy.tmpl")
     st = os.stat("./tmp_" + mode + "_application")
     os.chmod("./tmp_" + mode + "_application", st.st_mode | stat.S_IEXEC)
-    output = template.render()
+    output = template.render(mode=mode)
     f.write(output)
     f.close()
 
