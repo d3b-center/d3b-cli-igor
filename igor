@@ -66,7 +66,6 @@ def check_build(account):
 def awslogin():
     d3b_cli_igor.utils.shortcuts.awslogin()
 
-
 @click.command(name="diff")
 @click.option(
     "--file1",
@@ -131,6 +130,7 @@ igor_cli.add_command(check_build)
 igor_cli.add_command(awslogin)
 igor_cli.add_command(diff)
 igor_cli.add_command(split_files)
+
 
 if __name__ == "__main__":
     igor_cli()
