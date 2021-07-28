@@ -48,11 +48,7 @@ if [[ "${architecture_type}" == "aws-infra-ec2" ]]; then
 fi
 
 
-<<<<<<< HEAD
 if [ "${architecture_type}" == "aws-infra-lambda" ]; then
-=======
-if [[ "${architecture_type}" == "aws-infra-lambda" ]]; then
->>>>>>> cdf962ae2c14b0008aa14ef32255c651a3d550c4
 	igor generate-tf-module-files --project $TF_VAR_projectName --region $region --account_name $account_name --environment $TF_VAR_environment --module aws-infra-lambda-module
 	cd ../
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName '.config' $architecture_type-module $TF_VAR_organization null
