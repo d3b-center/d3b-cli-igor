@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import click
 import time
-import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config
+import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff
 import boto3
 
 
@@ -50,6 +50,53 @@ def deploy(account_name, organization, region, environment, config_file, mode):
         account_name, organization, region, environment, config_file, mode
     )
 
+@click.command(name="shortcuts")
+@click.option("--name", nargs=1, required=False)
+@click.option("--browser_type", default="", nargs=1, required=False)
+@click.option("--show", is_flag=True, required=False)
+def shortcuts(name, browser_type, show):
+    d3b_cli_igor.utils.shortcuts.browser(name, browser_type, show)
+
+@click.command(name="check_build")
+@click.option("--account", nargs=1, required=True)
+def check_build(account):
+    d3b_cli_igor.utils.shortcuts.check_build(account)
+
+@click.command(name="awslogin")
+def awslogin():
+    d3b_cli_igor.utils.shortcuts.awslogin()
+
+@click.command(name="diff")
+@click.option(
+    "--file1",
+    nargs=1,
+    required=True,
+    help="Enter File Path For File 1",
+)
+@click.option(
+    "--file2",
+    nargs=1,
+    required=True,
+    help="Enter File Path For File 2",
+)
+def diff(file1,file2):
+    d3b_cli_igor.utils.diff.diff_files(file1,file2)
+
+@click.command(name="split_files")
+@click.option(
+    "--file_to_split",
+    nargs=1,
+    required=True,
+    help="Enter File Path to the File",
+)
+@click.option(
+    "--num_of_lines",
+    nargs=1,
+    required=True,
+    help="Enter Enter Number of line for each split file",
+)
+def split_files(file_to_split,num_of_lines):
+    d3b_cli_igor.utils.diff.split_files(file_to_split,num_of_lines)
 
 @click.command(name="restart")
 @click.option(
@@ -64,7 +111,7 @@ def restart(app, environment, account):
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
 
-@click.command()
+@click.command(name="generate-tf-module-files")
 @click.option('--project',nargs=1,required=True)
 @click.option('--region',nargs=1,required=True)
 @click.option('--account_name',nargs=1,required=True)
@@ -78,6 +125,12 @@ igor_cli.add_command(get_logs)
 igor_cli.add_command(restart)
 igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
+igor_cli.add_command(shortcuts)
+igor_cli.add_command(check_build)
+igor_cli.add_command(awslogin)
+igor_cli.add_command(diff)
+igor_cli.add_command(split_files)
+
 
 if __name__ == "__main__":
     igor_cli()
