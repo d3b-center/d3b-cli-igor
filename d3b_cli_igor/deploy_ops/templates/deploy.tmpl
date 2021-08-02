@@ -62,3 +62,4 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
 fi
 cd ../
 rm -rf .tmp
+aws ecs wait services-stable --cluster ${TF_VAR_organization}-apps-dev-${region}-ecs --services ${TF_VAR_projectName}${TF_VAR_projectPrefix}-${TF_VAR_environment} --region ${region}
