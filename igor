@@ -30,7 +30,7 @@ def igor_cli():
 @click.option(
     "--hours",
     nargs=1,
-    default=3,
+    default=0.5,
     required=False,
     help="How far back in hours you want to go",
 )

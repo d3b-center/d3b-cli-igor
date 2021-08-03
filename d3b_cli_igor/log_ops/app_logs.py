@@ -6,6 +6,8 @@ logger = d3b_cli_igor.common.get_logger(__name__, testing_mode=False, log_format
 def get_app_logs(app, environment, query, hours):
     client = d3b_cli_igor.common.setup("logs")
     start_time=int(time.time())-hours*(3600)
+    start_time, i = divmod(start_time,1)
+    start_time = int(start_time)
     end_time=int(time.time())
     log_group="apps-"+ environment +'/'+app
     result = ""
