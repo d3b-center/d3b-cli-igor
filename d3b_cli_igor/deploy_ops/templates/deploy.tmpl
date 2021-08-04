@@ -16,6 +16,7 @@ rm -rf .standard/.git
 rm -rf .deployment/.git
 cd ../.tmp
 ln -sf ../.tmp_deployment/.deployment/bin/* ./
+ln -sf ../.tmp_deployment/.deployment/bin/account_info.json .config/
 ln -sf ../.tmp_deployment/.standard/* ./
 ln -sf ../.tmp_deployment/.standard/.config ./
 chmod +x *.sh
