@@ -40,7 +40,7 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
 	cd ../
 	{% if mode == 'build' %}
 	./deploy_dependencies.sh ${TF_VAR_projectName}${TF_VAR_projectPrefix} .config 'ecr'
-	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization
+	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
 	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
@@ -52,7 +52,7 @@ if [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
 	cd ../
 	{% if mode == 'build' %}
 	./deploy_dependencies.sh $TF_VAR_projectName$TF_VAR_projectPrefix .config $TF_VAR_dependencies 
-	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization
+	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
 	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
