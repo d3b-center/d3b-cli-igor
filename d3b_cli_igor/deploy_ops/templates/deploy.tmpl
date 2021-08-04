@@ -1,23 +1,30 @@
 rm -rf .tmp
+rm -rf .tmp_deployment
 rm -rf .config
 mkdir .tmp
 cp -rf * .tmp/
+cp -rf .git .tmp/
+
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
-git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp/.standard
-git clone --depth=1 -b master git@github.com:d3b-center/aws-infra-deployment.git .tmp/.deployment
-cp -rf .tmp/.deployment/bin/* .tmp/
-cp -rf .tmp/.standard/* .tmp/
-cp -rf .tmp/.standard/.config .tmp/
-cp .tmp/entrypoint.sh .tmp/.config/
-rm -rf .tmp/.standard
-chmod +x .tmp/*.sh
-cp .tmp/entrypoint.sh .tmp/.config/
-cp .tmp/account_info.json .tmp/.config/
-cp -rf .tmp/smoke_tests .tmp/.config/
+git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
+git clone --depth=1 -b master git@github.com:d3b-center/aws-infra-deployment.git .tmp_deployment/.deployment
+cd .tmp_deployment
+rm -rf .standard/tests
+rm -rf .standard/README.md
+rm -rf .standard/LICENSE
+rm -rf .standard/.git
+rm -rf .deployment/.git
+cd ../.tmp
+ln -sf ../.tmp_deployment/.deployment/bin/* ./
+ln -sf ../.tmp_deployment/.standard/* ./
+ln -sf ../.tmp_deployment/.standard/.config ./
+chmod +x *.sh
+cp -rf entrypoint.sh .config/
+cp -rf smoke_tests .config/
 echo "$account_name"
 echo "$region"
+cd .config
 
-cd .tmp/.config/
 echo "Architecture Type: ${architecture_type}"
 if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
         if [[ "${override_templates}" == "true" ]]; then
@@ -37,7 +44,7 @@ fi
 if [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
 	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app  --alb_name $TF_VAR_alb_name
 	cd ../
-	{% if mode == 'destroy' %}
+	{% if mode == 'build' %}
 	./deploy_dependencies.sh $TF_VAR_projectName$TF_VAR_projectPrefix .config $TF_VAR_dependencies 
 	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization
 	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
@@ -63,4 +70,5 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
 fi
 cd ../
 rm -rf .tmp
+rm -rf .tmp_deployment
 aws ecs wait services-stable --cluster ${TF_VAR_organization}-apps-dev-${region}-ecs --services ${TF_VAR_projectName}${TF_VAR_projectPrefix}-${TF_VAR_environment} --region ${region}
