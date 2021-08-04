@@ -49,24 +49,28 @@ def generate(account_name, organization, region, environment, config_file, mode)
             name, var = line.partition("=")[::2]
             f.write("export TF_VAR_" + name.strip() + "=" + var.strip() + "")
     f.write("""
-     S3_SECRETS_BUCKET_PREFIX="${TF_VAR_organization}-${TF_VAR_account_id}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}"
+    S3_SECRETS_BUCKET_PREFIX="${TF_VAR_organization}-${TF_VAR_account_id}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}"
     export S3_SECRETS_BUCKET_PREFIX
-    echo "Secrets Bucket: $S3_SECRETS_BUCKET_PREFIX"
-    echo "Entrypoint Command: $ENTRYPOINT_COMMAND"
-    aws s3 sync s3://"$S3_SECRETS_BUCKET_PREFIX"/ secrets/
-    if ls secrets/*.env 1> /dev/null 2>&1; then
-        echo "Setting environmental variables..."
-        export $(cat secrets/*.env | xargs) > /dev/null 2>&1;
-    else
-        echo "INFO: Could not find *.env files"
-    fi
-    if ls secrets/*.secrets 1> /dev/null 2>&1; then
+    if [ ! -z TF_VAR_setup_deploy_secrets ] && [ TF_VAR_setup_deploy_secrets = "true" ]; then
+      echo "Secrets Bucket: $S3_SECRETS_BUCKET_PREFIX"
+      echo "Entrypoint Command: $ENTRYPOINT_COMMAND"
+      aws s3 sync s3://"$S3_SECRETS_BUCKET_PREFIX"/ secrets/
+       if ls secrets/*.env 1> /dev/null 2>&1; then
+          echo "Setting environmental variables..."
+          export $(cat secrets/*.env | xargs) > /dev/null 2>&1;
+       else
+          echo "INFO: Could not find *.env files"
+       fi
+       if ls secrets/*.secrets 1> /dev/null 2>&1; then
         echo "Setting environmental variables..."
         export $(cat secrets/*.secrets | xargs) > /dev/null 2>&1;
-    else
+       else
         echo "INFO: Could not find *.secrets files"
+      fi
+    rm -rf secrets
     fi
-    rm -rf secrets""")
+    
+    """)
     f.write("\n")
     for line in lines:
         if "=" in line and "shared-libraries" not in line:
