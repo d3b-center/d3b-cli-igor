@@ -9,16 +9,19 @@ export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
 git clone --depth=1 -b master git@github.com:d3b-center/aws-infra-deployment.git .tmp_deployment/.deployment
 cd .tmp_deployment
+#Remove unnecessary files
 rm -rf .standard/tests
 rm -rf .standard/README.md
 rm -rf .standard/LICENSE
 rm -rf .standard/.git
 rm -rf .deployment/.git
 cd ../.tmp
-ln -sf ../.tmp_deployment/.deployment/bin/* ./
-ln -sf ../.tmp_deployment/.deployment/bin/account_info.json .config/
-ln -sf ../.tmp_deployment/.standard/* ./
-ln -sf ../.tmp_deployment/.standard/.config ./
+#Link deployment scripts
+ln -s ../.tmp_deployment/.deployment/bin/* ./
+ln -s ../.tmp_deployment/.standard/* ./
+ln -s ../.tmp_deployment/.standard/.config ./
+#Copy account info
+cp ../.tmp_deployment/.deployment/bin/account_info.json ../.tmp_deployment/.standard/.config/
 chmod +x *.sh
 cp -rf entrypoint.sh .config/
 cp -rf smoke_tests .config/
