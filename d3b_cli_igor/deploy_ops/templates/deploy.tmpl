@@ -24,9 +24,9 @@ ln -s ../.tmp_deployment/.standard/* ./
 ln -s ../.tmp_deployment/.standard/.config ./
 #Copy account info
 cp ../.tmp_deployment/.deployment/bin/account_info.json ../.tmp_deployment/.standard/.config/
+cp -rf ../.tmp_deployment/.deployment/bin/entrypoint.sh .config/
+cp -rf ../.tmp_deployment/.deployment/bin/smoke_tests .config/
 chmod +x *.sh
-cp -rf entrypoint.sh .config/
-cp -rf smoke_tests .config/
 echo "$account_name"
 echo "$region"
 cd .config
@@ -52,7 +52,7 @@ if [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
 	cd ../
 	{% if mode == 'build' %}
 	./deploy_dependencies.sh $TF_VAR_projectName$TF_VAR_projectPrefix .config $TF_VAR_dependencies 
-	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
+	./build_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
 	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
@@ -72,10 +72,9 @@ if [ "${architecture_type}" == "aws-infra-lambda" ]; then
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type-module $TF_VAR_organization null
 fi
 
-if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
-	aws ecs wait services-stable --cluster $organization-$vpc_prefix-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix --region $region 
+if [[ "${architecture_type}" == "aws-ecs-service-type-1" && "${mode}" == "deploy" ]]; then
+	aws ecs wait services-stable --cluster $TF_VAR_organization-app-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix --region $region 
 fi
 cd ../
 rm -rf .tmp
 rm -rf .tmp_deployment
-aws ecs wait services-stable --cluster ${TF_VAR_organization}-apps-dev-${region}-ecs --services ${TF_VAR_projectName}${TF_VAR_projectPrefix}-${TF_VAR_environment} --region ${region}
