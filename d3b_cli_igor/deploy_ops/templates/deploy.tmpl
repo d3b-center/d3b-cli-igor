@@ -73,7 +73,7 @@ if [ "${architecture_type}" == "aws-infra-lambda" ]; then
 fi
 
 if [[ "${architecture_type}" == "aws-ecs-service-type-1" && "${mode}" == "deploy" ]]; then
-	aws ecs wait services-stable --cluster $TF_VAR_organization-apps-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix --region $region 
+	aws ecs wait services-stable --cluster $TF_VAR_organization-apps-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix-$TF_VAR_environment --region $region 
 fi
 cd ../
 rm -rf .tmp
