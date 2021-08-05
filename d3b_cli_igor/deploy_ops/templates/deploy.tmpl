@@ -36,25 +36,30 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
         if [[ "${override_templates}" == "true" ]]; then
 	    aws s3 cp s3://${TF_VAR_organization}-${AWS_ACCOUNT_ID}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}/templates/ templates/ --recursive
 	fi
-	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
 	cd ../
 	{% if mode == 'build' %}
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment prd --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
+	cd ../
 	./deploy_dependencies.sh ${TF_VAR_projectName}${TF_VAR_projectPrefix} .config 'ecr'
 	./build_standard.sh $account_name $region null $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
 	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
+	cd ../
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
 	{% endif %}
 fi
 
 if [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
-	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app  --alb_name $TF_VAR_alb_name
-	cd ../
 	{% if mode == 'build' %}
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment prd --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app 
+	cd ../
 	./deploy_dependencies.sh $TF_VAR_projectName$TF_VAR_projectPrefix .config ecr 
 	./build_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
 	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
+	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app  --alb_name $TF_VAR_alb_name
+	cd ../
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
          {% endif %}
 
