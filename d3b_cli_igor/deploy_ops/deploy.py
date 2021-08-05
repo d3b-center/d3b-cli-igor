@@ -18,9 +18,9 @@ def deploy(account_name, organization, region, environment, config_file, mode):
         exit_status = 1
 
     logger.info("Cleaning Up")
-#    os.remove("./tmp_"+mode+"_application")
-#    dirpath = Path('./tmp')
-#    if dirpath.exists() and dirpath.is_dir():
-#        shutil.rmtree(dirpath)
+    os.remove("./tmp_"+mode+"_application")
+    dirpath = Path('./tmp')
+    if dirpath.exists() and dirpath.is_dir():
+        shutil.rmtree(dirpath)
     logger.info("Exit status is : "+str(exit_status))
     sys.exit(exit_status)
