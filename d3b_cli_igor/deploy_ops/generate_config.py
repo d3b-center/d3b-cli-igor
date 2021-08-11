@@ -9,14 +9,15 @@ logger = d3b_cli_igor.common.get_logger(
     __name__, testing_mode=False, log_format="detailed"
 )
 
+
 def generate(account_name, organization, region, environment, config_file, mode):
     templateEnv = jinja2.Environment(
         loader=FileSystemLoader(str(pathlib.Path(__file__).parent.absolute()))
     )
     path = os.getcwd()
-    logger.info("Checking for "+config_file)
+    logger.info("Checking for " + config_file)
     deployment_file = open(path + "/" + config_file, "r")
-    logger.info("Found "+config_file)
+    logger.info("Found " + config_file)
     lines = deployment_file.readlines()
     f = open("tmp_" + mode + "_application", "w")
 
@@ -42,13 +43,14 @@ def generate(account_name, organization, region, environment, config_file, mode)
     f.write("export mode=" + mode)
     f.write("\n")
     client = boto3.client("sts")
-    f.write("export TF_VAR_account_id="+client.get_caller_identity()["Account"])
+    f.write("export TF_VAR_account_id=" + client.get_caller_identity()["Account"])
     f.write("\n")
     for line in lines:
         if "project_name" in line or "projectName" in line:
             name, var = line.partition("=")[::2]
             f.write("export TF_VAR_" + name.strip() + "=" + var.strip() + "")
-    f.write("""
+    f.write(
+        """
     S3_SECRETS_BUCKET_PREFIX="${TF_VAR_organization}-${TF_VAR_account_id}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}"
     export S3_SECRETS_BUCKET_PREFIX
     if [ ! -z TF_VAR_setup_deploy_secrets ] && [ TF_VAR_setup_deploy_secrets = "true" ]; then
@@ -70,7 +72,8 @@ def generate(account_name, organization, region, environment, config_file, mode)
     rm -rf secrets
     fi
     
-    """)
+    """
+    )
     f.write("\n")
     for line in lines:
         if "=" in line and "shared-libraries" not in line:
@@ -96,40 +99,60 @@ def generate(account_name, organization, region, environment, config_file, mode)
     f.write(output)
     f.close()
 
-def generate_tf_module_files(project,region,account_name,environment,module):
+
+def generate_tf_module_files(project, region, account_name, environment, module):
     account_information = {}
     state_files_bucket = ""
 
-    with open(os.getcwd()+'/account_info.json') as json_file:
+    with open(os.getcwd() + "/account_info.json") as json_file:
         account_information = json.load(json_file)
     backend_file = jinja2.FileSystemLoader(searchpath="./")
-    templateEnv = jinja2.Environment(loader=FileSystemLoader('templates/'))
+    templateEnv = jinja2.Environment(loader=FileSystemLoader("templates/"))
 
-    TEMPLATE_FILES=os.listdir("./templates")
+    TEMPLATE_FILES = os.listdir("./templates")
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    for templ in TEMPLATE_FILES: 
-        template = templateEnv.get_template(templ) 
-        if(not os.path.exists(module+"/infra-scripts/"+account_name+"/"+region)):
-            os.makedirs(module+"/infra-scripts/"+account_name+"/"+region)
+    for templ in TEMPLATE_FILES:
+        template = templateEnv.get_template(templ)
+        if not os.path.exists(module + "/infra-scripts/" + account_name + "/" + region):
+            os.makedirs(module + "/infra-scripts/" + account_name + "/" + region)
         for item in environment.split(","):
             file_mapping_path = {
-                   templ: "./"+module+"/infra-scripts/" + account_name + "/" + region + "/"+ item + "/",
+                templ: "./"
+                + module
+                + "/infra-scripts/"
+                + account_name
+                + "/"
+                + region
+                + "/"
+                + item
+                + "/",
             }
-            if(not os.path.exists(module+"/infra-scripts/"+account_name+"/"+region+"/"+item)):
-                os.mkdir(module+"/infra-scripts/"+account_name+"/"+region+"/"+item)
+            if not os.path.exists(
+                module + "/infra-scripts/" + account_name + "/" + region + "/" + item
+            ):
+                os.mkdir(
+                    module
+                    + "/infra-scripts/"
+                    + account_name
+                    + "/"
+                    + region
+                    + "/"
+                    + item
+                )
 
             outputText = template.render(
                 organization=account_information[account_name]["organization"],
                 azs=account_information[account_name]["azs"],
                 vpc_prefix=account_information[account_name]["vpc_prefix"],
-                cidr_addr=account_information[account_name][item+"_cidr"],
+                cidr_addr=account_information[account_name][item + "_cidr"],
                 project=project,
                 account_name=account_name,
                 region=region,
                 environment=item,
-                state_files_bucket=account_information[account_name]["state_files_bucket"]
+                state_files_bucket=account_information[account_name][
+                    "state_files_bucket"
+                ],
             )
-            
-            with open(file_mapping_path[templ]+templ, "w") as fh:
-                fh.write(outputText)
 
+            with open(file_mapping_path[templ] + templ, "w") as fh:
+                fh.write(outputText)
