@@ -1,0 +1,9 @@
+#!/bin/bash
+pip3 install -y ansible checkov
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+wget https://releases.hashicorp.com/terraform/1.0.4/terraform_1.0.4_darwin_amd64.zip
+unzip terraform_1.0.4_darwin_amd64.zip
+rm -rf terraform_1.0.4_darwin_amd64.zip
+sudo mv terraform /usr/bin/
+

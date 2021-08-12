@@ -1,0 +1,100 @@
+set -e
+trap ctrl_c SIGINT SIGTERM ERR EXIT INT
+ctrl_c () {
+    trap - SIGINT SIGTERM ERR EXIT INT
+    echo ""
+    echo "Exiting tunnel..."
+    kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
+    sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
+    exit
+}
+syslevel=$1
+
+if [ -z $syslevel ]; then
+  echo "Please specify syslevel"
+  exit 1
+fi
+
+  if [ $syslevel=='dev' ]; then
+    export port="1222"
+    export cidr="10.10.0.0/8"
+  fi
+  if [ $syslevel=='qa' ]; then
+    export port="2222"
+    export cidr="10.11.0.0/16"
+  fi
+  if [ $syslevel=='prd' ]; then
+    export port="3222"
+    export cidr="10.12.0.0/8"
+  fi
+  if [ $syslevel=='service' ]; then
+    export port="4222"
+    export cidr="10.0.0.0/8"
+  fi
+
+
+if [ -z $AWS_PROFILE ]; then
+  awslogin short
+  echo "###########################"
+  echo "# Please choose AWS role: #"
+  echo "###########################"
+  read aws_role
+  saml-login -c $aws_role aws-assume-role && export AWS_PROFILE="$aws_role"
+  echo $AWS_PROFILE
+fi
+echo "
+Opening Connection
+"
+
+if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }') ]; then
+  echo "Killing previous sessions"
+  ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }'
+  kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
+  sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
+fi
+
+info=$(ssm-ssh --region us-east-1 --list | grep "bastion-ssm-ec2-$syslevel")
+
+INSTANCE_ID=$(echo $info | awk '{ print $1 }')
+INSTANCE_IP=$(echo $info | awk '{ print $4 }')
+
+if [ -z $INSTANCE_ID ]; then
+ echo "Could not find credentials"
+ exit 1;
+fi
+
+echo "Found instance ${INSTANCE_ID}. Connecting"
+
+ssm-ssh --region us-east-1 $INSTANCE_ID -L $port:$INSTANCE_IP:22 -fN 
+sed '/localhost/d' ~/.ssh/known_hosts > ~/.ssh/known_hosts_new
+cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
+jenkins_ips=$(nslookup aws-infra-jenkins-service.kf-strides.org | grep Address | tail -4 | awk '{ print $2"/32" }' | tr '\n' ' ')
+sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $2
+  
+if [ -z $2 ]; then
+  echo "
+  ██╗  ██╗    ███████╗   
+  ██║ ██╔╝    ██╔════╝ 
+  █████╔╝     █████╗  
+  ██╔═██╗     ██╔══╝ 
+  ██║  ██╗ids ██║irst Tunnel
+  ╚═╝  ╚═╝    ╚═╝   
+  kf-strides
+  "
+else
+  echo "
+  ██████╗░    ░█████╗░
+  ██╔══██╗    ██╔══██╗
+  ██║░░██║    ██║░░╚═╝
+  ██║░░██║    ██║░░██╗
+  ██████╔╝3b  ╚█████╔╝enter
+  ╚═════╝░    ░╚════╝░
+  chopd3bprd
+  "
+fi
+
+echo "Tunnel is open... Type \"exit\" or Crtl+C to disconnect:"
+read terminate
+if [ $terminate=="exit" ]; then
+  ctrl_c INT
+fi
