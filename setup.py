@@ -29,6 +29,7 @@ setuptools.setup(
     ],
     install_requires=[
         'numpy',
+        'jinja2',
         'boto3',
         'colorlog',
         'click',
