@@ -104,3 +104,13 @@ Open ssh tunnel
 igor dev_env_tunnel --environment [dev,qa,prd,service]
 ~~~
 
+onboarding
+----------
+Install software that required for a specific role
+
+***Usage:***
+
+~~~
+igor onboarding --role devops --install_os mac
+~~~
+
