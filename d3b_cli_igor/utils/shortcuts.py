@@ -46,6 +46,8 @@ def dev_env_tunnel(environment,cidr_block):
         os.system(dev_env_tunnel_script + " " + environment + " " + cidr_block)
     except botocore.exceptions.ClientError:
         print("Credentials are NOT valid. You might want to execute : igor awslogin and export AWS_PROFILE=<profile_name> in order to set credentials.")
+    except botocore.exceptions.NoCredentialsError:
+        print("Credentials are NOT valid. You might want to execute : igor awslogin and export AWS_PROFILE=<profile_name> in order to set credentials.")
 
 def awslogin():
     os.system(awslogin_script)
