@@ -17,7 +17,9 @@ Installation
 Operations
 ==========
 
-get-logs - Get logs for a specific application
+get-logs 
+--------
+Get logs for a specific application
 --------
 
 ***Usage:***
@@ -26,7 +28,9 @@ This will print application logs for kf-api-arranger for the past 2 hours (keep 
  igor get-logs --app kf-api-arranger --environment prd --hours 2 
 ~~~
 
-restart - Executes new deployment for a service
+restart 
+-------
+Executes new deployment for a service
 -------
 
 ***Usage:***
