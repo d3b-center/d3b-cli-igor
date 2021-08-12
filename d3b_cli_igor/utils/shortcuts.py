@@ -1,4 +1,5 @@
-import os, sys, pathlib
+import os, sys, pathlib, boto3
+import botocore.exceptions
 import click, yaml
 import d3b_cli_igor.common
 
@@ -8,7 +9,9 @@ logger = d3b_cli_igor.common.get_logger(
 
 config_file = "config/shortcuts.yaml"
 check_build_script = "check_build"
+onboarding_script = "onboarding"
 awslogin_script = "awslogin"
+dev_env_tunnel_script = "dev-env-tunnel"
 path = os.path.dirname(__file__)
 
 
@@ -31,6 +34,17 @@ def browser(name, browser_type="", list_shortcuts=False):
 def check_build(account):
     os.system(check_build_script + " " + account)
 
+def onboarding(role,install_os="mac"):
+    os.system(onboarding_script + "_" + role + "_" + install_os)
+
+def dev_env_tunnel(environment,cidr_block):
+    sts = boto3.client('sts')
+    try:
+        sts.get_caller_identity()
+        print("Credentials are valid.")
+        os.system(dev_env_tunnel_script + " " + environment + " " + cidr_block)
+    except botocore.exceptions.ClientError:
+        print("Credentials are NOT valid. You might want to execute : igor awslogin and export AWS_PROFILE=<profile_name> in order to set credentials.")
 
 def awslogin():
     os.system(awslogin_script)

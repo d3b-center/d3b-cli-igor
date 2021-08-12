@@ -9,7 +9,6 @@ import boto3
 def igor_cli():
     pass
 
-
 @click.command(name="get-logs")
 @click.option(
     "--app",
@@ -62,9 +61,22 @@ def shortcuts(name, browser_type, show):
 def check_build(account):
     d3b_cli_igor.utils.shortcuts.check_build(account)
 
+@click.command(name="onboarding")
+@click.option("--role", nargs=1, required=True)
+@click.option("--install_os", nargs=1, required=False)
+def onboarding(role,install_os):
+    d3b_cli_igor.utils.shortcuts.onboarding(role,install_os)
+
 @click.command(name="awslogin")
 def awslogin():
     d3b_cli_igor.utils.shortcuts.awslogin()
+
+
+@click.command(name="dev_env_tunnel")
+@click.option("--environment", nargs=1, required=True)
+@click.option("--cidr_block", nargs=1, default="", required=False)
+def dev_env_tunnel(environment,cidr_block):
+    d3b_cli_igor.utils.shortcuts.dev_env_tunnel(environment,cidr_block)
 
 @click.command(name="diff")
 @click.option(
@@ -127,7 +139,9 @@ igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
 igor_cli.add_command(shortcuts)
 igor_cli.add_command(check_build)
+igor_cli.add_command(onboarding)
 igor_cli.add_command(awslogin)
+igor_cli.add_command(dev_env_tunnel)
 igor_cli.add_command(diff)
 igor_cli.add_command(split_files)
 
