@@ -5,5 +5,6 @@ sudo installer -pkg AWSCLIV2.pkg -target /
 wget https://releases.hashicorp.com/terraform/1.0.4/terraform_1.0.4_darwin_amd64.zip
 unzip ./terraform_1.0.4_darwin_amd64.zip
 rm -rf ./terraform_1.0.4_darwin_amd64.zip
-sudo mv ./terraform /usr/local/bin/
-
+rm -rf /usr/local/bin/terraform
+cp ./terraform /usr/local/bin/terraform
+rm -rf ./terraform
