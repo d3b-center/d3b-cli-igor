@@ -3,6 +3,16 @@ IGOR
 
 IGOR stands for ... actually it does not stands for anything. It just a tool to help developers to get information they need quick!
 
+Installation
+============
+
+1. Clone repo
+2. Execute the following script:
+
+~~~
+ ./setup.sh
+~~~
+
 
 Operations
 ==========
