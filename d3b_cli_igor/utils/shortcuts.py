@@ -35,7 +35,7 @@ def browser(name, browser_type="", list_shortcuts=False):
 def check_build(account):
     os.system(check_build_script + " " + account)
 
-def onboarding(role,install_os="mac"):
+def onboarding(role,install_os):
     os.system(onboarding_script + "_" + role + "_" + install_os)
 
 def dev_env_tunnel(environment,cidr_block):

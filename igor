@@ -63,7 +63,7 @@ def check_build(account):
 
 @click.command(name="onboarding")
 @click.option("--role", nargs=1, required=True)
-@click.option("--install_os", nargs=1, required=False)
+@click.option("--install_os", default="mac", nargs=1, required=False)
 def onboarding(role,install_os):
     d3b_cli_igor.utils.shortcuts.onboarding(role,install_os)
 
