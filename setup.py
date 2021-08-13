@@ -27,6 +27,11 @@ setuptools.setup(
         "d3b_cli_igor.log_ops",
         "d3b_cli_igor.utils",
     ],
+    package_data={
+        'd3b_cli_igor.deploy_ops': ['templates/*.tmpl'],
+        'd3b_cli_igor.utils': ['config/*.yaml'],
+    },
+    include_package_data=True,
     install_requires=[
         'numpy',
         'jinja2',
