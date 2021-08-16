@@ -33,7 +33,7 @@ cd .config
 
 echo "Architecture Type: ${architecture_type}"
 if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
-        if [[ "${override_templates}" == "true" ]]; then
+        if [[ "${TF_VAR_override_templates}" == "true" ]]; then
 	    aws s3 cp s3://${TF_VAR_organization}-${AWS_ACCOUNT_ID}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}/templates/ templates/ --recursive
 	fi
 	{% if mode == 'build' %}
