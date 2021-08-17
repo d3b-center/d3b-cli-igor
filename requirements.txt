@@ -6,3 +6,4 @@ pyyaml
 datetime
 aws-ssm-tools
 auth0-login
+colorlog
