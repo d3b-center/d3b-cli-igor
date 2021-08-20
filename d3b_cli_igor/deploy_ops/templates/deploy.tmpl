@@ -2,8 +2,7 @@ rm -rf .tmp
 rm -rf .tmp_deployment
 rm -rf .config
 mkdir .tmp
-cp -rf * .tmp/
-cp -rf .git .tmp/
+rsync -avr --exclude='.tmp' ./ .tmp/
 
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
