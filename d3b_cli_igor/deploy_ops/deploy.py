@@ -9,7 +9,7 @@ logger = d3b_cli_igor.common.get_logger(
 )
 
 
-def deploy(account_name, organization, region, environment, config_file, mode):
+def deploy(account_name, organization, region, environment, config_file, mode, debug):
     d3b_cli_igor.deploy_ops.generate_config.generate(
         account_name, organization, region, environment, config_file, mode
     )
@@ -17,13 +17,13 @@ def deploy(account_name, organization, region, environment, config_file, mode):
     exit_status = os.system("./tmp_" + mode + "_application")
     if exit_status != 0:
         exit_status = 1
-
-    logger.info("Cleaning Up")
-    exit_status = os.remove("./tmp_" + mode + "_application")
-    if exit_status != 0:
-        exit_status = 1
-    dirpath = Path("./tmp")
-    if dirpath.exists() and dirpath.is_dir():
-        shutil.rmtree(dirpath)
+    if not debug:  
+        logger.info("Cleaning Up")
+        exit_status = os.remove("./tmp_" + mode + "_application")
+        if exit_status != 0:
+            exit_status = 1
+        dirpath = Path("./tmp")
+        if dirpath.exists() and dirpath.is_dir():
+            shutil.rmtree(dirpath)
     logger.info("Exit status is : " + str(exit_status))
     sys.exit(exit_status)
