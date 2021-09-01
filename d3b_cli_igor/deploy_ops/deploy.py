@@ -19,7 +19,9 @@ def deploy(account_name, organization, region, environment, config_file, mode):
         exit_status = 1
 
     logger.info("Cleaning Up")
-    #os.remove("./tmp_" + mode + "_application")
+    exit_status = os.remove("./tmp_" + mode + "_application")
+    if exit_status != 0:
+        exit_status = 1
     dirpath = Path("./tmp")
     if dirpath.exists() and dirpath.is_dir():
         shutil.rmtree(dirpath)
