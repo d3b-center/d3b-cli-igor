@@ -65,6 +65,16 @@ check_build
 igor check_build --account [kf-strides,chopd3bPrd]
 ~~~
 
+github_open
+-----------
+(works with Mac only) Opens web page for github.com for a particular github repo. You have to be in the directory of that repo in order for this command to work. 
+
+***Usage:***
+
+~~~
+igor github_open 
+~~~
+
 awslogin 
 --------
 Login to aws using Auth0. 

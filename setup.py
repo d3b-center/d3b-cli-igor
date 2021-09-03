@@ -11,6 +11,7 @@ setuptools.setup(
         "igor",
         "d3b_cli_igor/utils/scripts/awslogin",
         "d3b_cli_igor/utils/scripts/check_build",
+        "d3b_cli_igor/utils/scripts/github_open",
         "d3b_cli_igor/utils/scripts/dev-env-tunnel",
         "d3b_cli_igor/utils/scripts/onboarding_devops_mac",
     ],
