@@ -49,6 +49,10 @@ def generate(account_name, organization, region, environment, config_file, mode)
         if "project_name" in line or "projectName" in line:
             name, var = line.partition("=")[::2]
             f.write("export TF_VAR_" + name.strip() + "=" + var.strip() + "")
+        if (environment+"_cidr") in line:
+            name, var = line.partition("=")[::2]
+            f.write("\n")
+            f.write("export TF_VAR_chop_cidr=\"[" + var.strip().replace("\"", "\\\"") + "]\"")
     f.write(
         """
     S3_SECRETS_BUCKET_PREFIX="${TF_VAR_organization}-${TF_VAR_account_id}-${region}-${TF_VAR_environment}-secrets/${TF_VAR_projectName}"
