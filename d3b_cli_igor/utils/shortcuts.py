@@ -9,12 +9,12 @@ logger = d3b_cli_igor.common.get_logger(
 
 config_file = "config/shortcuts.yaml"
 check_build_script = "check_build"
+github_open_script = "github_open"
 onboarding_script = "onboarding"
 awslogin_script = "awslogin"
 dev_env_tunnel_script = "dev-env-tunnel"
 
 path = os.path.dirname(__file__)
-
 
 def browser(name, browser_type="", list_shortcuts=False):
     stream = open(path + "/" + config_file, "r")
@@ -34,6 +34,9 @@ def browser(name, browser_type="", list_shortcuts=False):
 
 def check_build(account):
     os.system(check_build_script + " " + account)
+
+def github_open():
+    os.system(github_open_script + "")
 
 def onboarding(role,install_os):
     os.system(onboarding_script + "_" + role + "_" + install_os)
