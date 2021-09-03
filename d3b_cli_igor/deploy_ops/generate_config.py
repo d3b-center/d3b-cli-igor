@@ -148,7 +148,7 @@ def generate_tf_module_files(project, region, account_name, environment, module)
                 organization=account_information[account_name]["organization"],
                 azs=account_information[account_name]["azs"],
                 vpc_prefix=account_information[account_name]["vpc_prefix"],
-                cidr_addr="[" + account_information[account_name][item + "_cidr"] + "]",
+                cidr_addr=account_information[account_name][item + "_cidr"],
                 project=project,
                 account_name=account_name,
                 region=region,
