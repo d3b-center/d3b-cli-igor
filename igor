@@ -62,6 +62,10 @@ def shortcuts(name, browser_type, show):
 def check_build(account):
     d3b_cli_igor.utils.shortcuts.check_build(account)
 
+@click.command(name="github_open")
+def github_open():
+    d3b_cli_igor.utils.shortcuts.github_open()
+
 @click.command(name="onboarding")
 @click.option("--role", nargs=1, required=True)
 @click.option("--install_os", default="mac", nargs=1, required=False)
@@ -140,6 +144,7 @@ igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
 igor_cli.add_command(shortcuts)
 igor_cli.add_command(check_build)
+igor_cli.add_command(github_open)
 igor_cli.add_command(onboarding)
 igor_cli.add_command(awslogin)
 igor_cli.add_command(dev_env_tunnel)
