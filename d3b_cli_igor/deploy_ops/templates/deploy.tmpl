@@ -30,7 +30,7 @@ echo "$account_name"
 echo "$region"
 cd .config
 
-if {{ "${mode}" == "plan" ]]; then
+if [[ "${mode}" == "plan" ]]; then
     export mode="deploy"
     export ONLY_PLAN="true"
 fi
