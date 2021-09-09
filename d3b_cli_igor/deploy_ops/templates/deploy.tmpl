@@ -99,7 +99,7 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" && "${mode}" == "deploy
 fi
 
 if [[ ! -z  "${TF_VAR_post_deploy_config}" ]]; then
-    ./playbook/pre_deploy_config    
+    ./playbook/post_deploy_config    
 fi
 cd ../
 rm -rf .tmp
