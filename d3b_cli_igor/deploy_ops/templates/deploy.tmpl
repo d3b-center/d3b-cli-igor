@@ -35,7 +35,7 @@ if [[ "${mode}" == "plan" ]]; then
     export ONLY_PLAN="true"
 fi
 
-if [[ ! -z  "${TF_VAR_pre_deploy_config}" ]]; then
+if [[ "${TF_VAR_pre_deploy_config}" == "true" && "${mode}" == "deploy" ]]; then
     ./playbook/pre_deploy_config
 fi
 
@@ -98,7 +98,7 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" && "${mode}" == "deploy
 	aws ecs wait services-stable --cluster $TF_VAR_organization-apps-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix-$TF_VAR_environment --region $region 
 fi
 
-if [[ ! -z  "${TF_VAR_post_deploy_config}" ]]; then
+if [[ "${TF_VAR_post_deploy_config}" == "true" && "${mode}" == "deploy" ]]; then
     ./playbook/post_deploy_config    
 fi
 cd ../
