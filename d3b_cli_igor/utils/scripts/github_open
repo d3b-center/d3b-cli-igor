@@ -2,4 +2,4 @@
 set -e
 host="github.com"
 branch=$(git rev-parse --abbrev-ref HEAD|sed 's/\//\%252F/')
-open https://$host/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')
+open https://$host/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')/tree/$branch
