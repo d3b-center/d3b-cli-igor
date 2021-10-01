@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 echo "
 #    _____              ____               ____        _                         _ _
 #   |  __ \            / __ \             / __ \      | |                       | (_)
@@ -10,6 +11,8 @@ echo "
 #                            |_|                                                           |___/
  for Mac"
 echo "Install Ansible, Checkov, Sshuttle"
+terraform_version="1.0.8"
+packer_version="1.7.4"
 pip3 install ansible checkov sshuttle
 sshuttle --sudoers
 echo "Install AWSCLI"
@@ -17,15 +20,15 @@ curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 sudo installer -pkg AWSCLIV2.pkg -target /
 rm -rf AWSCLIV2.pkg
 echo "Install Terraform"
-wget https://releases.hashicorp.com/terraform/1.0.4/terraform_1.0.4_darwin_amd64.zip
-unzip ./terraform_1.0.4_darwin_amd64.zip
-rm -rf ./terraform_1.0.4_darwin_amd64.zip
+wget https://releases.hashicorp.com/terraform/"${terraform_version}"/terraform_"${terraform_version}"_darwin_amd64.zip
+unzip ./terraform_"${terraform_version}"_darwin_amd64.zip
+rm -rf ./terraform_"${terraform_version}"_darwin_amd64.zip
 rm -rf /usr/local/bin/terraform
 cp ./terraform /usr/local/bin/terraform
 rm -rf ./terraform
 echo "Install packer"
-wget https://releases.hashicorp.com/packer/1.7.4/packer_1.7.4_darwin_amd64.zip
-unzip ./packer_1.7.4_darwin_amd64.zip
+wget https://releases.hashicorp.com/packer/"${packer_version}"/packer_"${packer_version}"_darwin_amd64.zip
+unzip ./packer_"${packer_version}"_darwin_amd64.zip
 rm -rf packer_*.zip
 cp ./packer /usr/local/bin/packer
 rm -rf packer

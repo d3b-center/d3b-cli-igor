@@ -15,6 +15,14 @@ if [ -z $syslevel ]; then
   exit 1
 fi
 
+user_id=$(aws sts get-caller-identity --output text | awk '{ print $2 }')
+if [ $? == 254 ]; then
+  echo "AWS Token has expired."
+  exit 1
+else
+  echo "AWS token is valid. Running as $user_id"
+fi
+
   if [ $syslevel=='dev' ]; then
     export port="1222"
     export cidr="10.10.0.0/8"
@@ -53,10 +61,11 @@ if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }
   sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
 fi
 
-info=$(ssm-ssh --region us-east-1 --list | grep "bastion-ssm-ec2-$syslevel")
+echo "getting info"
+info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='aws-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text)
 
 INSTANCE_ID=$(echo $info | awk '{ print $1 }')
-INSTANCE_IP=$(echo $info | awk '{ print $4 }')
+INSTANCE_IP=$(echo $info | awk '{ print $2 }')
 
 if [ -z $INSTANCE_ID ]; then
  echo "Could not find credentials"
@@ -65,10 +74,12 @@ fi
 
 echo "Found instance ${INSTANCE_ID}. Connecting"
 
+echo "ssm-ssh"
 ssm-ssh --region us-east-1 $INSTANCE_ID -L $port:$INSTANCE_IP:22 -fN 
 sed '/localhost/d' ~/.ssh/known_hosts > ~/.ssh/known_hosts_new
 cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
 jenkins_ips=$(nslookup aws-infra-jenkins-service.kf-strides.org | grep Address | tail -4 | awk '{ print $2"/32" }' | tr '\n' ' ')
+echo "Running sshuttle"
 sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $2
   
 if [ -z $2 ]; then
