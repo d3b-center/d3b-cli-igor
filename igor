@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import click
 import time
-import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff
+import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff, d3b_cli_igor.app_ops.ecs_healthcheck
 import boto3
 
 
@@ -127,6 +127,18 @@ def split_files(file_to_split,num_of_lines):
 def restart(app, environment, account):
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
+@click.command(name="healthcheck")
+@click.option(
+    "--app",
+    nargs=1,
+    required=True,
+    help="Enter Application Name",
+)
+@click.option("--environment", nargs=1, required=True, help="Specify Environment")
+@click.option("--account", nargs=1, required=True, help="Specify AWS Account")
+def healthcheck(app, environment, account):
+    d3b_cli_igor.app_ops.ecs_healthcheck.health_check(app, environment, account)
+
 
 @click.command(name="generate-tf-module-files")
 @click.option('--project',nargs=1,required=True)
@@ -140,6 +152,7 @@ def generate_tf_module_files(project,region,account_name,environment,module):
 
 igor_cli.add_command(get_logs)
 igor_cli.add_command(restart)
+igor_cli.add_command(healthcheck)
 igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
 igor_cli.add_command(shortcuts)
