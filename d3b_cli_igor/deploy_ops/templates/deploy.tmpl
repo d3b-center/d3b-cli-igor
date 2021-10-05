@@ -96,6 +96,7 @@ fi
 
 if [[ "${architecture_type}" == "aws-ecs-service-type-1" && "${mode}" == "deploy" ]]; then
 	aws ecs wait services-stable --cluster $TF_VAR_organization-apps-$TF_VAR_environment-$region-ecs --services $TF_VAR_projectName$TF_VAR_projectPrefix-$TF_VAR_environment --region $region 
+	igor get-info --app $TF_VAR_projectName$TF_VAR_projectPrefix --environment $TF_VAR_environment --account $account_name --region $region
 fi
 
 if [[ "${TF_VAR_post_deploy_config}" == "true" && "${mode}" == "deploy" ]]; then
