@@ -43,7 +43,8 @@ setuptools.setup(
         'datetime',
         'aws-ssm-tools',
         'auth0-login',
-        'botocore'
+        'botocore',
+        'colored'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

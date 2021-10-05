@@ -135,9 +135,10 @@ def restart(app, environment, account):
     help="Enter Application Name",
 )
 @click.option("--environment", nargs=1, required=True, help="Specify Environment")
+@click.option("--region", default="us-east-1", nargs=1, required=True)
 @click.option("--account", nargs=1, required=True, help="Specify AWS Account")
-def healthcheck(app, environment, account):
-    d3b_cli_igor.app_ops.ecs_healthcheck.health_check(app, environment, account)
+def healthcheck(app, environment, account, region):
+    d3b_cli_igor.app_ops.ecs_healthcheck.health_check(app, environment, account, region)
 
 
 @click.command(name="generate-tf-module-files")
