@@ -44,7 +44,8 @@ setuptools.setup(
         'aws-ssm-tools',
         'auth0-login',
         'botocore',
-        'colored'
+        'colored',
+        'termcolor'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
