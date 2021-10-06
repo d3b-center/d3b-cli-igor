@@ -36,7 +36,7 @@ def get_info(app, environment, account, region):
             rds_info=rds_client.describe_db_instances(DBInstanceIdentifier=app+"-postgres-service-rds")
         else:
             rds_info=rds_client.describe_db_instances(DBInstanceIdentifier=app+"-postgres-"+environment+"-rds")
-        rds_info={ "instance_name": str(rds_info["DBInstances"][0]["DBInstanceIdentifier"]), "allocated_storage": str(rds_info["DBInstances"][0]["AllocatedSt   orage"]) }
+        rds_info={ "instance_name": str(rds_info["DBInstances"][0]["DBInstanceIdentifier"]), "allocated_storage": str(rds_info["DBInstances"][0]["AllocatedStorage"]) }
     except Exception as e:
         logger.info(e)
     for item in albs["LoadBalancers"]:
