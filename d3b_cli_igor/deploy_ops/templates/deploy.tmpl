@@ -78,7 +78,7 @@ elif [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
          {% endif %}
 
-elfi [[ "${architecture_type}" == "aws-infra-ec2" ]]; then
+elif [[ "${architecture_type}" == "aws-infra-ec2" ]]; then
 	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $TF_VAR_vpc_prefix --user_data "$TF_VAR_user_data"
 	cd ../
 	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type-module $TF_VAR_organization null
@@ -97,4 +97,4 @@ if [[ "${TF_VAR_post_deploy_config}" == "true" && "${mode}" == "deploy" ]]; then
 fi
 cd ../
 rm -rf .tmp
-rm -rf .tmp_deployment
+#rm -rf .tmp_deployment
