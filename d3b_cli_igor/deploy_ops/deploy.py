@@ -8,8 +8,7 @@ logger = d3b_cli_igor.common.get_logger(
     __name__, testing_mode=False, log_format="detailed"
 )
 
-
-def deploy(account_name, organization, region, environment, config_file, mode, debug=False):
+def execute_deploy(account_name, organization, region, environment, config_file, mode, debug=False):
     d3b_cli_igor.deploy_ops.generate_config.generate(
         account_name, organization, region, environment, config_file, mode
     )
@@ -25,3 +24,11 @@ def deploy(account_name, organization, region, environment, config_file, mode, d
             shutil.rmtree(dirpath)
     logger.info("Exit status is : " + str(exit_status))
     sys.exit(exit_status)
+
+def deploy(account_name, organization, region, environment, config_file, mode, debug=False):
+    if("*.deploy" in config_file or "*.destroy" in config_file):
+        files = fnmatch.filter(os.listdir("./"), "*.deploy")
+        for item in files:
+            execute_deploy(account_name, organization, region, environment, item, mode, debug=False)
+    else:
+        execute_deploy(account_name, organization, region, environment, config_file, mode, debug=False)

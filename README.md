@@ -58,6 +58,12 @@ igor deploy --mode deploy --account_name kf-strides --organization kf-strides --
 igor deploy --mode deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy --config_file Jenkinsfile
 ~~~
 
+The command also supports wildcards. When using wildcards prefix your config file with .deploy. So for instance config files with names some_config.deploy and other_config.deploy both will be executed. 
+
+~~~
+igor deploy --mode deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy --config_file *.deploy 
+~~~
+
 check-build 
 -----------
 (works with Mac only) Opens web page for Jenkins for a particular github repo. You have to be in the directory of that repo in order for this command to work. Also you must pass which instance of Jenkins you want to see (kf-strides, chopd3bPrd).
