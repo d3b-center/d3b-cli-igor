@@ -10,9 +10,15 @@ fi
 if [ $1 == "kf-strides" ]; then
  host="aws-infra-jenkins-service.kf-strides.org"
 fi
+
+UNAME=$(uname | tr "[:upper:]" "[:lower:]")
+browser="open"
+if [ $UNAME == "linux" ]; then
+	browser="firefox"
+fi
 if [ -z $host ]; then
    echo "Could not find environment"
    exit 1
 fi
 branch=$(git rev-parse --abbrev-ref HEAD|sed 's/\//\%252F/')
-open https://$host/job/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')-$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')/job/$branch/lastBuild/
+$browser https://$host/job/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')-$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')/job/$branch/lastBuild/
