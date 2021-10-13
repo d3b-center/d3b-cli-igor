@@ -32,6 +32,11 @@ unzip ./packer_"${packer_version}"_darwin_amd64.zip
 rm -rf packer_*.zip
 cp ./packer /usr/local/bin/packer
 rm -rf packer
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
+unzip sessionmanager-bundle.zip
+sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+rm -rf sessionmanager-bundle.zip
+rm -rf sessionmanager-bundle
 if [ -z ~/.aws ]; then
   mkdir ~/.aws
   touch ~/.aws/credentials

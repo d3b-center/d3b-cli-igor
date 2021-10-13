@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 trap ctrl_c SIGINT SIGTERM ERR EXIT INT
 ctrl_c () {
