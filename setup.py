@@ -14,6 +14,7 @@ setuptools.setup(
         "d3b_cli_igor/utils/scripts/github_open",
         "d3b_cli_igor/utils/scripts/dev-env-tunnel",
         "d3b_cli_igor/utils/scripts/onboarding_devops_mac",
+        "d3b_cli_igor/utils/scripts/onboarding_devops_ubuntu",
     ],
     author="Alex Lubneuski",
     author_email="alex@d3b.center",
