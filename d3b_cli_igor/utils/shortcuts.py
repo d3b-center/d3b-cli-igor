@@ -27,7 +27,7 @@ def browser(name, browser_type="", list_shortcuts=False):
             if browser_type == "":
                 os.system("open " + dictionary[name]["name"])
             else:
-                os.system('open "' + browser_type + '" ' + dictionary[name]["name"])
+                os.system(browser_type + " " + dictionary[name]["name"])
         except Exception as e:
             logger.error("Could not find file: " + str(e))
 
