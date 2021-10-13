@@ -1,5 +1,10 @@
 #!/bin/bash
+UNAME=$(uname | tr "[:upper:]" "[:lower:]")
+browser="open"
+if [ $UNAME == "linux" ]; then
+	browser="firefox"
+fi
 set -e
 host="github.com"
 branch=$(git rev-parse --abbrev-ref HEAD)
-open https://$host/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')/tree/$branch
+$browser https://$host/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $1 }')/$(git config --get remote.origin.url | awk -F":" '{ print $2 }' | awk -F"/" '{ print $2 }' | awk -F"." '{ print $1 }')/tree/$branch
