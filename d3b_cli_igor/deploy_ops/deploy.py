@@ -1,6 +1,7 @@
 import os, sys, pathlib
 import click
 import stat, shutil
+import fnmatch
 from pathlib import Path
 import d3b_cli_igor.common, d3b_cli_igor.deploy_ops.generate_config
 
