@@ -75,7 +75,7 @@ elif [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
 	{% else %}
 	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment $TF_VAR_environment --postfix $TF_VAR_vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app  --alb_name $TF_VAR_alb_name
 	cd ../
-	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization null
+	./${mode}_standard.sh $account_name $region $TF_VAR_environment $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_environment
          {% endif %}
 
 elif [[ "${architecture_type}" == "aws-infra-ec2" ]]; then
