@@ -32,8 +32,8 @@ def browser(name, browser_type="", list_shortcuts=False):
             logger.error("Could not find file: " + str(e))
 
 
-def check_build(account):
-    os.system(check_build_script + " " + account)
+def check_build():
+    os.system(check_build_script)
 
 def github_open():
     os.system(github_open_script + "")

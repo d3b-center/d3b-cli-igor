@@ -58,9 +58,8 @@ def shortcuts(name, browser_type, show):
     d3b_cli_igor.utils.shortcuts.browser(name, browser_type, show)
 
 @click.command(name="check-build")
-@click.option("--account", nargs=1, required=True)
-def check_build(account):
-    d3b_cli_igor.utils.shortcuts.check_build(account)
+def check_build():
+    d3b_cli_igor.utils.shortcuts.check_build()
 
 @click.command(name="github-open")
 def github_open():
