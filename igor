@@ -4,7 +4,6 @@ import time
 import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff, d3b_cli_igor.app_ops.ecs_get_info
 import boto3
 
-
 @click.group()
 def igor_cli():
     pass
@@ -148,7 +147,6 @@ def get_info(app, environment, account, region):
 @click.option('--module',nargs=1,required=True)
 def generate_tf_module_files(project,region,account_name,environment,module):
     d3b_cli_igor.deploy_ops.generate_config.generate_tf_module_files(project,region,account_name, environment,module)
-
 
 igor_cli.add_command(get_logs)
 igor_cli.add_command(restart)
