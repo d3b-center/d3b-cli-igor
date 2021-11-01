@@ -62,7 +62,7 @@ if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }
 fi
 
 echo "getting info"
-info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='aws-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text)
+info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='aws-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | grep -v None)
 
 INSTANCE_ID=$(echo $info | awk '{ print $1 }')
 INSTANCE_IP=$(echo $info | awk '{ print $2 }')
