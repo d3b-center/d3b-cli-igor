@@ -49,6 +49,23 @@
        "subnet_prefix"         : "apps",
        "azs"                   : "[\"a\",\"b\"]"
     },
+   "sandbox":
+   {
+       "state_files_bucket"    : "sandbox-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-d3b-sandbox01-dev",
+       "account_id"	       : "452734729332",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.30.128/26\"]",
+       "qa_cidr"               : "[\"172.22.30.128/26\"]",
+       "prd_cidr"              : "[\"172.22.30.128/26\"]",
+       "service_cidr"          : "[\"172.22.30.128/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-d3b-sandbox01-dev.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-d3b-sandbox01-dev.aws.cloud.chop.edu",
+       "vpc_prefix"            : "baseline-primary-vpc",
+       "subnet_prefix"         : "baseline-primary-subnet",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
    "chopd3bPrd":
    {
        "state_files_bucket": "chopd3bprd-remote-state-files",
