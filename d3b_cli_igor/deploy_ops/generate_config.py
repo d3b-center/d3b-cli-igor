@@ -9,6 +9,8 @@ logger = d3b_cli_igor.common.get_logger(
     __name__, testing_mode=False, log_format="detailed"
 )
 
+path = os.path.dirname(__file__)
+config_file = "config/account_info.json"
 
 def generate(account_name, organization, region, environment, config_file, mode):
     templateEnv = jinja2.Environment(
@@ -96,6 +98,9 @@ def generate(account_name, organization, region, environment, config_file, mode)
         if "aws_infra_lambda_module" in line:
             f.write('export architecture_type="aws-infra-lambda"')
             f.write("\n")
+        if "aws-alb" in line:
+            f.write('export architecture_type="aws-alb"')
+            f.write("\n")
     template = templateEnv.get_template("templates/deploy.tmpl")
     st = os.stat("./tmp_" + mode + "_application")
     os.chmod("./tmp_" + mode + "_application", st.st_mode | stat.S_IEXEC)
@@ -108,7 +113,7 @@ def generate_tf_module_files(project, region, account_name, environment, module)
     account_information = {}
     state_files_bucket = ""
 
-    with open(os.getcwd() + "/account_info.json") as json_file:
+    with open(path + "/" + config_file ) as json_file:
         account_information = json.load(json_file)
     backend_file = jinja2.FileSystemLoader(searchpath="./")
     templateEnv = jinja2.Environment(loader=FileSystemLoader("templates/"))

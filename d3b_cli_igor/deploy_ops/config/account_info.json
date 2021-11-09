@@ -1,0 +1,87 @@
+{
+   "chopd3b": {
+       "state_files_bucket": "chopawsd3b-remote-state-files",
+       "institution_naming_convention": "chopd3b",
+       "account_id"	   : "538745987955",
+       "organization"      : "kf",
+       "dev_cidr"          : "[ \"10.10.0.0/16\"]",
+       "qa_cidr"           : "[\"10.11.0.0/16\"]",
+       "prd_cidr"          : "[\"0.0.0.0/0\"]",
+       "service_cidr"      : "[\"10.0.0.0/8\"]",
+       "instance_type"     : "db.t2.small",
+       "domain_external"   : "kidsfirstdrc.org",
+       "domain_internal"   : "kids-first.io",
+       "vpc_prefix"        : "apps",
+       "subnet_prefix"     : "apps",
+       "azs"               : "[\"a\",\"b\",\"c\",\"e\"]"
+   },
+   "ucsf":
+   {
+       "state_files_bucket": "ucsf-remote-state-files",
+       "institution_naming_convention": "",
+       "account_id"	   : "",
+       "organization"      : "ucsf",
+       "dev_cidr"          : "[\"10.39.0.0/16\"]",
+       "qa_cidr"           : "[\"10.39.0.0/16\"]",
+       "prd_cidr"          : "[\"0.0.0.0/0\"]",
+       "service_cidr"      : "[\"10.0.0.0/8\"]",
+       "instance_type"     : "db.t2.small",
+       "domain_external"   : "ucsf.org",
+       "domain_internal"   : "ucsf.org",
+       "vpc_prefix"        : "apps",
+       "subnet_prefix"     : "apps",
+       "azs"               : "[\"a\",\"b\"]"
+    },
+   "chopd3bPrdHippa":
+   {
+       "state_files_bucket"    : "chopd3bprdhippa-remote-state-files",
+       "institution_naming_convention": "research-27200-7225140000",
+       "account_id"	       : "515011955314",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"10.10.0.0/16\"]",
+       "qa_cidr"               : "[\"10.11.0.0/16\"]",
+       "prd_cidr"              : "[\"10.12.0.0/16\"]",
+       "service_cidr"          : "[\"10.0.0.0/16\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "research-27200-7225140000.aws.cloud.chop.edu",
+       "domain_internal"       : "research-27200-7225140000.aws.cloud.chop.edu",
+       "vpc_prefix"            : "apps",
+       "subnet_prefix"         : "apps",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
+   "chopd3bPrd":
+   {
+       "state_files_bucket": "chopd3bprd-remote-state-files",
+       "institution_naming_convention": "chop-d3b-prod",
+       "account_id"	       : "684194535433",
+       "organization"      : "d3b",
+       "dev_cidr"          : "[\"10.39.0.0/16\"]",
+       "qa_cidr"           : "[\"10.39.0.0/16\"]",
+       "prd_cidr"          : "[\"0.0.0.0/0\"]",
+       "service_cidr"      : "[\"10.0.0.0/8\"]",
+       "instance_type"     : "db.t2.small",
+       "domain_external"   : "d3b.io",
+       "domain_internal"   : "d3b.io",
+       "vpc_prefix"        : "dc",
+       "subnet_prefix"     : "dc",
+       "azs"               : "[\"a\",\"b\"]"
+    },
+   "kf-strides":
+   {
+       "state_files_bucket": "kf-strides-remote-state-files",
+       "institution_naming_convention": "chop-d3b-center",
+       "account_id"	       : "232196027141",
+       "organization"      : "kf-strides",
+       "dev_cidr"          : "[ \"10.10.0.0/16\"]",
+       "qa_cidr"           : "[\"10.11.0.0/16\"]",
+       "prd_cidr"          : "[\"0.0.0.0/0\"]",
+       "service_cidr"      : "[\"10.0.0.0/8\"]",
+       "instance_type"     : "db.t2.small",
+       "domain_external"   : "kf-strides.org",
+       "domain_internal"   : "kf-strides.org",
+       "vpc_prefix"        : "apps",
+       "subnet_prefix"     : "apps",
+       "azs"               : "[\"a\",\"b\",\"c\",\"e\"]"
+    } 
+ }
+ 
