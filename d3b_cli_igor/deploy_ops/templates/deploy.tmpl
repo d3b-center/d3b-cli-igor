@@ -4,6 +4,11 @@ rm -rf .config
 mkdir .tmp
 rsync -avr --exclude='.tmp' ./ .tmp/
 
+#To support legacy way to set env vars in Jenkinsfile itself
+if [ ! -z $TF_VAR_architecture_type ]; then
+    export architecture_type=$TF_VAR_architecture_type
+fi
+
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 if [ $TF_VAR_branch != "../" ]; then
 git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
