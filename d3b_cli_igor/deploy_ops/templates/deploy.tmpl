@@ -9,6 +9,15 @@ if [ ! -z $TF_VAR_architecture_type ]; then
     export architecture_type=$TF_VAR_architecture_type
 fi
 
+#To Support ecs-service-type-1
+if [ ! -z $TF_VAR_project ]; then
+  TF_VAR_projectName=$TF_VAR_project 
+fi
+
+if [ ! -z $TF_VAR_application ]; then
+  TF_VAR_projectName=$TF_VAR_application
+fi
+
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 if [ $TF_VAR_branch != "../" ]; then
 git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
