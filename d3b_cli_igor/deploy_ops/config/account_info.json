@@ -51,7 +51,7 @@
        "state_files_bucket"    : "include-remote-state-files",
        "institution_naming_convention": "",
        "account_id"	       : "373997854230",
-       "organization"          : "d3b",
+       "organization"          : "include",
        "qa_cidr"               : "[\"10.11.0.0/16\"]",
        "prd_cidr"              : "[\"10.12.0.0/16\"]",
        "service_cidr"          : "[\"10.32.0.0/16\"]",
