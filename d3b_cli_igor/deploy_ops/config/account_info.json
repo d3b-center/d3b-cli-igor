@@ -46,6 +46,22 @@
        "subnet_prefix"         : "baseline-primary-subnet",
        "azs"                   : "[\"a\",\"b\"]"
     },
+   "include":
+   {
+       "state_files_bucket"    : "include-remote-state-files",
+       "institution_naming_convention": "",
+       "account_id"	       : "373997854230",
+       "organization"          : "d3b",
+       "qa_cidr"               : "[\"10.11.0.0/16\"]",
+       "prd_cidr"              : "[\"10.12.0.0/16\"]",
+       "service_cidr"          : "[\"10.32.0.0/16\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "373997854230.d3b.io",
+       "domain_internal"       : "373997854230.d3b.io",
+       "vpc_prefix"            : "apps",
+       "subnet_prefix"         : "apps",
+       "azs"                   : "[\"a\",\"b\",\"c\",\"e\"]"
+    },
    "chopd3bPrd":
    {
        "state_files_bucket": "chopd3bprd-remote-state-files",
