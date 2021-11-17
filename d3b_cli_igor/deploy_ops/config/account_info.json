@@ -60,7 +60,7 @@
        "domain_internal"       : "373997854230.d3b.io",
        "vpc_prefix"            : "apps",
        "subnet_prefix"         : "apps",
-       "azs"                   : "[\"a\",\"b\",\"c\",\"e\"]"
+       "azs"                   : "[\"a\",\"b\"]"
     },
    "chopd3bPrd":
    {
