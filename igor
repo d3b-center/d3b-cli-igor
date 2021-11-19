@@ -3,6 +3,22 @@ import click
 import time
 import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff, d3b_cli_igor.app_ops.ecs_get_info
 import boto3
+import boto3
+import sys 
+import d3b_cli_igor.common
+
+logger = d3b_cli_igor.common.get_logger(
+    __name__, testing_mode=False, log_format="detailed"
+)
+
+def check_creds():
+    sts = boto3.client('sts')
+    try:
+        sts.get_caller_identity()
+        logger.info("Credentials are valid.")
+    except Exception as e:
+        logger.error("Credentials are NOT valid." + str(e))
+        sys.exit(1)
 
 @click.group()
 def igor_cli():
@@ -42,9 +58,10 @@ def get_logs(app, environment, query, hours):
 @click.option("--region", nargs=1, required=True)
 @click.option("--environment", nargs=1, required=True)
 @click.option("--config_file", nargs=1, default="Jenkinsfile", required=False)
-@click.option("--mode", type=click.Choice(['plan', 'build', 'deploy', 'destroy']),  nargs=1, default="deploy", required=False)
+@click.option("--mode", type=click.Choice(['plan', 'build', 'apply', 'destroy']),  nargs=1, default="apply", required=False)
 @click.option("--debug", is_flag=True, required=False)
 def deploy(account_name, organization, region, environment, config_file, mode, debug):
+    check_creds()
     d3b_cli_igor.deploy_ops.deploy.deploy(
         account_name, organization, region, environment, config_file, mode, debug
     )
@@ -79,6 +96,7 @@ def awslogin():
 @click.option("--environment", nargs=1, required=True)
 @click.option("--cidr_block", nargs=1, default="", required=False)
 def dev_env_tunnel(environment,cidr_block):
+    check_creds()
     d3b_cli_igor.utils.shortcuts.dev_env_tunnel(environment,cidr_block)
 
 @click.command(name="diff")
@@ -123,6 +141,7 @@ def split_files(file_to_split,num_of_lines):
 @click.option("--environment", nargs=1, required=True, help="Specify Environment")
 @click.option("--account", nargs=1, required=True, help="Specify AWS Account")
 def restart(app, environment, account):
+    check_creds()
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
 @click.command(name="get-info")
@@ -136,6 +155,7 @@ def restart(app, environment, account):
 @click.option("--region", default="us-east-1", nargs=1, required=True)
 @click.option("--account", nargs=1, required=True, help="Specify AWS Account")
 def get_info(app, environment, account, region):
+    check_creds()
     d3b_cli_igor.app_ops.ecs_get_info.get_info(app, environment, account, region)
 
 
