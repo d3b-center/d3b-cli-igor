@@ -56,6 +56,11 @@ if [[ "${mode}" == "plan" ]]; then
     export ONLY_PLAN="true"
 fi
 
+if [[ "${mode}" == "apply" ]]; then
+    export mode="deploy"
+fi
+
+
 if [[ "${TF_VAR_pre_deploy_config}" == "true" && "${mode}" == "deploy" ]]; then
     ./playbook/pre_deploy_config
 fi

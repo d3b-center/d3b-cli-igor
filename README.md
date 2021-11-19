@@ -44,24 +44,25 @@ igor restart --app kf-cbioportal --environment qa --account kf-strides
 deploy 
 ------
 
-Deploy application from current directory. This operation supports "ecs_service_type_1" and "aws_infra_ec2_module" deployments. This command requires to have Jenkinsfile to be in the same directory.
+Deploy application from current directory. This operation supports modules in kids-first organization. This command requires to have Jenkinsfile to be in the same directory.
 
 Options:
- [] mode - Choose between 3 modes : build, plan, deploy. Build mode will do a standard docker build. Plan will create plan of resources that will be created. Deploy mode will execute terraform apply command.
+ [] mode - Choose between 4 modes : build, plan, apply, destroy. Build mode will do a standard docker build. Plan will create plan of resources that will be created. Deploy mode will execute terraform apply command.
 
 ***Usage:***
 
 This example show how to deploy a application into kf-strides account , us-east-1 region and dev environment. 
 
 ~~~
-igor deploy --mode deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode deploy  --config_file Jenkinsfile
-igor deploy --mode deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy --config_file Jenkinsfile
+igor deploy --mode plan --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev --config_file Jenkinsfile
+igor deploy --mode apply --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev --config_file Jenkinsfile
+igor deploy --mode destroy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev --config_file Jenkinsfile
 ~~~
 
 The command also supports wildcards. When using wildcards prefix your config file with .deploy. So for instance config files with names some_config.deploy and other_config.deploy both will be executed. 
 
 ~~~
-igor deploy --mode deploy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy --config_file *.deploy 
+igor deploy --mode apply --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy --config_file *.deploy 
 ~~~
 
 check-build 
