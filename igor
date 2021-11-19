@@ -89,7 +89,6 @@ def onboarding(role,install_os):
 
 @click.command(name="awslogin")
 def awslogin():
-    check_creds()
     d3b_cli_igor.utils.shortcuts.awslogin()
 
 
