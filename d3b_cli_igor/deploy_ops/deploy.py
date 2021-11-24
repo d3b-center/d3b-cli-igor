@@ -28,7 +28,7 @@ def execute_deploy(account_name, organization, region, environment, config_file,
     sys.exit(exit_status)
 
 def deploy(account_name, organization, region, environment, config_file, mode, debug=False):
-    if (not exists(config_file) and "*.deploy" not in config_file):
+    if (not exists(config_file) and "*." not in config_file):
         logger.error("File "+ config_file +" does not exist")
         sys.exit(1)
     if("*.deploy" in config_file or "*.destroy" in config_file):
