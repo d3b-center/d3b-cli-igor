@@ -10,9 +10,10 @@ if [ ! -z $TF_VAR_architecture_type ]; then
     export architecture_type=$TF_VAR_architecture_type
 fi
 
+export TF_VAR_build_environments="null"
     echo "Check if build.args needs to be downloaded"
-if [ -z $TF_VAR_build_environments]; then
-    export build_environments=$TF_VAR_build_environments
+if [ -z $TF_VAR_build_environments ]; then
+    export TF_VAR_build_environments=$TF_VAR_build_environments
 fi
 
 #To Support ecs-service-type-1
@@ -100,7 +101,7 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
 elif [[ "${architecture_type}" == "aws-ecs-service-existing-alb" ]]; then
          echo "Check if build.args needs to be downloaded"
 	 if [ -z $TF_VAR_build_environments]; then
-    		export build_environments=$TF_VAR_environment
+    		export TF_VAR_build_environments=$TF_VAR_environment
  	fi
 	{% if mode == 'build' %}
 	./setup_files --project $TF_VAR_projectName$TF_VAR_projectPrefix --region $region --account_name $account_name --environment prd --postfix $TF_VAR_vpc_prefix --docker_image_type $TF_VAR_docker_image_type --internal_app $TF_VAR_internal_app --alb_name $TF_VAR_alb_name
