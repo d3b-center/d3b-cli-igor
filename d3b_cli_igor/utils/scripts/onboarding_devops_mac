@@ -11,8 +11,8 @@ echo "
 #                            |_|                                                           |___/
  for Mac"
 echo "Install Ansible, Checkov, Sshuttle"
-terraform_version="1.0.8"
-packer_version="1.7.4"
+terraform_version="1.0.11"
+packer_version="1.7.8"
 pip3 install ansible checkov sshuttle
 sshuttle --sudoers
 brew install hub
