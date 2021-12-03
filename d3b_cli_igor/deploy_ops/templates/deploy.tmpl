@@ -12,7 +12,7 @@ fi
 
 export TF_VAR_build_environments="null"
     echo "Check if build.args needs to be downloaded"
-if [ -z $TF_VAR_build_environments ]; then
+if [ ! -z $TF_VAR_build_environments ]; then
     export TF_VAR_build_environments=$TF_VAR_build_environments
 fi
 
