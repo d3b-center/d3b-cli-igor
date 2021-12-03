@@ -10,10 +10,9 @@ if [ ! -z $TF_VAR_architecture_type ]; then
     export architecture_type=$TF_VAR_architecture_type
 fi
 
-export TF_VAR_build_environments="null"
     echo "Check if build.args needs to be downloaded"
-if [ ! -z $TF_VAR_build_environments ]; then
-    export TF_VAR_build_environments=$TF_VAR_build_environments
+if [ -z $TF_VAR_build_environments ]; then
+    export TF_VAR_build_environments=null
 fi
 
 #To Support ecs-service-type-1
@@ -87,7 +86,6 @@ if [[ "${architecture_type}" == "aws-ecs-service-type-1" ]]; then
 	cd ../
 	./deploy_dependencies.sh ${TF_VAR_projectName}${TF_VAR_projectPrefix} .config 'ecr'
 	./build_standard.sh $account_name $region $TF_VAR_build_environments $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type $TF_VAR_organization $TF_VAR_external_github_repo $TF_VAR_external_github_repo_branch
-	./publish_standard.sh $account_name $region $TF_VAR_projectName$TF_VAR_projectPrefix '.config' $architecture_type 
 	{% else %}
 	echo "Deploying"
 	if [[ ! -z "${TF_VAR_additional_container_ports}" ]]; then
