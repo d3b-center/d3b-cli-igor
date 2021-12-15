@@ -95,28 +95,7 @@ jenkins_ips=$(nslookup aws-infra-jenkins-service.kf-strides.org | grep Address |
 echo "Running sshuttle"
 sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $2
   
-if [ $account_id=='684194535433' ]; then
-  echo "
-  ██████╗░    ░█████╗░
-  ██╔══██╗    ██╔══██╗
-  ██║░░██║    ██║░░╚═╝
-  ██║░░██║    ██║░░██╗
-  ██████╔╝3b  ╚█████╔╝enter
-  ╚═════╝░    ░╚════╝░
-  chopd3bprd
-  "
-fi
-if [ $account_id=='232196027141' ]; then
-  echo "
-  ██╗  ██╗    ███████╗   
-  ██║ ██╔╝    ██╔════╝ 
-  █████╔╝     █████╗  
-  ██╔═██╗     ██╔══╝ 
-  ██║  ██╗ids ██║irst Tunnel
-  ╚═╝  ╚═╝    ╚═╝   
-  kf-strides
-  "
-fi
+echo "Connecting to $account_id AWS account"
 
 echo "Tunnel is open... Type \"exit\" or Crtl+C to disconnect:"
 read terminate
