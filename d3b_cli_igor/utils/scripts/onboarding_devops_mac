@@ -15,6 +15,7 @@ terraform_version="1.0.8"
 packer_version="1.7.4"
 pip3 install ansible checkov sshuttle
 sshuttle --sudoers
+echo "Install Hub from GitHub"
 brew install hub
 echo "Install AWSCLI"
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -38,6 +39,8 @@ unzip sessionmanager-bundle.zip
 sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
 rm -rf sessionmanager-bundle.zip
 rm -rf sessionmanager-bundle
+echo "Install Terraform-Docs"
+brew install terraform-docs
 if [ -z ~/.aws ]; then
   mkdir ~/.aws
   touch ~/.aws/credentials
