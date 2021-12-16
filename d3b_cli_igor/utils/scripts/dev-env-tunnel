@@ -5,6 +5,7 @@ ctrl_c () {
     echo ""
     echo "Exiting tunnel..."
     kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
+    sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
     exit
 }
 syslevel=$1
@@ -72,6 +73,7 @@ if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }
   echo "Killing previous sessions"
   ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }'
   kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
+  sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
 fi
 
 echo "getting info"
@@ -94,9 +96,9 @@ cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
 jenkins_ips=$(nslookup aws-infra-jenkins-service.kf-strides.org | grep Address | tail -4 | awk '{ print $2"/32" }' | tr '\n' ' ')
 echo "Running sshuttle"
 sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $2
-  
-echo "Connecting to $account_id AWS account"
-
+echo "#############################" 
+echo "# Account ID is $account_id #"
+echo "#############################" 
 echo "Tunnel is open... Type \"exit\" or Crtl+C to disconnect:"
 read terminate
 if [ $terminate=="exit" ]; then
