@@ -5,7 +5,6 @@ ctrl_c () {
     echo ""
     echo "Exiting tunnel..."
     kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
-    sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
     exit
 }
 syslevel=$1
