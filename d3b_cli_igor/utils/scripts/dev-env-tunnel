@@ -43,7 +43,6 @@ fi
 
   account_id=$(echo $sts_info | awk '{ print $1 }')
   echo "Account ID: $account_id"
-  echo $ORG
   if [ "$account_id" == "684194535433" ]; then
     echo "Running in AWS account: $account_id"
     export ORG='d3b-d3b'
@@ -74,6 +73,7 @@ if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }
 fi
 
 echo "getting info"
+echo "aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='$ORG-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | tail -1"
 info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='$ORG-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | tail -1)
 
 INSTANCE_ID=$(echo $info | awk '{ print $1 }')
