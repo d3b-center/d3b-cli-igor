@@ -9,11 +9,11 @@ echo "
 #   |_____/ \___| \_/  \____/| .__/|___/  \____/|_| |_|_.__/ \___/ \__,_|_|  \__,_|_|_| |_|\__, |
 #                            | |                                                            __/ |
 #                            |_|                                                           |___/
- for Mac"
-echo "Install Ansible, Checkov, Sshuttle"
+ for Ubuntu"
+echo "Install Ansible, Checkov, Sshuttle, ssm-tools, auth0-login"
 terraform_version="1.0.8"
 packer_version="1.7.4"
-pip3 install ansible checkov sshuttle
+pip3 install ansible checkov sshuttle aws-ssm-tools auth0-login 
 sshuttle --sudoers
 sudo apt install hub
 echo "Install AWSCLI"
@@ -32,6 +32,7 @@ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get update && sudo apt-get install packer
 rm -rf packer
+echo "Install AWS Session Manager"
 curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
 sudo dpkg -i session-manager-plugin.deb
 rm -rf session-manager-plugin.deb

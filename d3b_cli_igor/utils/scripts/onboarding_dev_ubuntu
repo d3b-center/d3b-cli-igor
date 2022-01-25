@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+echo "
+#    _____               ____        _                         _ _
+#   |  __ \             / __ \      | |                       | (_)
+#   | |  | | _____   _ | |  | |_ __ | |__   ___   __ _ _ __ __| |_ _ __   __ _
+#   | |  | |/ _ \ \ /  | |  | | '_ \| '_ \ / _ \ / _  | __/  _| | _ \ / _   | |
+#   | |__| |  __/\ V / | |__| | | | | |_) | (_) | (_| | | | (_| | | | | | (_| |
+#   |_____/ \___| \_/   \____/|_| |_|_.__/ \___/ \__,_|_|  \__,_|_|_| |_|\__, |
+#                                                                         __/ |
+#                                                                        |___/
+ for Ubuntu"
+echo "Install Sshuttle, ssm-tools, auth0-login"
+pip3 install sshuttle aws-ssm-tools auth0-login 
+sshuttle --sudoers
+sudo apt install hub
+echo "Install AWSCLI"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+rm -rf ./awscliv2.zip
+sudo ./aws/install --update
+rm -rf ./aws
+echo "Install AWS Session Manager"
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+sudo dpkg -i session-manager-plugin.deb
+rm -rf session-manager-plugin.deb
+if [ -z ~/.aws ]; then
+  mkdir ~/.aws
+  touch ~/.aws/credentials
+fi

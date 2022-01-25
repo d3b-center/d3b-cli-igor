@@ -10,10 +10,10 @@ echo "
 #                            | |                                                            __/ |
 #                            |_|                                                           |___/
  for Mac"
-echo "Install Ansible, Checkov, Sshuttle"
+echo "Install Ansible, Checkov, Sshuttle, ssm-tools, auth0-login"
 terraform_version="1.0.8"
 packer_version="1.7.4"
-pip3 install ansible checkov sshuttle
+pip3 install ansible checkov sshuttle aws-ssm-tools auth0-login 
 sshuttle --sudoers
 echo "Install Hub from GitHub"
 brew install hub
@@ -34,6 +34,7 @@ unzip ./packer_"${packer_version}"_darwin_amd64.zip
 rm -rf packer_*.zip
 cp ./packer /usr/local/bin/packer
 rm -rf packer
+echo "Install AWS Session Manager"
 curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
 unzip sessionmanager-bundle.zip
 sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin

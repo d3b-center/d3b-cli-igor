@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+echo "
+#    _____               ____        _                         _ _
+#   |  __ \             / __ \      | |                       | (_)
+#   | |  | | _____   _ | |  | |_ __ | |__   ___   __ _ _ __ __| |_ _ __   __ _
+#   | |  | |/ _ \ \ /  | |  | | '_ \| '_ \ / _ \ / _  | __/  _| | _ \ / _   | |
+#   | |__| |  __/\ V / | |__| | | | | |_) | (_) | (_| | | | (_| | | | | | (_| |
+#   |_____/ \___| \_/   \____/|_| |_|_.__/ \___/ \__,_|_|  \__,_|_|_| |_|\__, |
+#                                                                         __/ |
+#                                                                        |___/
+ for Mac"
+echo "Install Sshuttle, ssm-tools, auth0-login"
+pip3 install sshuttle aws-ssm-tools auth0-login 
+sshuttle --sudoers
+echo "Install Hub from GitHub"
+brew install hub
+echo "Install AWSCLI"
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+rm -rf AWSCLIV2.pkg
+echo "Install AWS Session Manager"
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
+unzip sessionmanager-bundle.zip
+sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+rm -rf sessionmanager-bundle.zip
+rm -rf sessionmanager-bundle
+if [ -z ~/.aws ]; then
+  mkdir ~/.aws
+  touch ~/.aws/credentials
+fi
