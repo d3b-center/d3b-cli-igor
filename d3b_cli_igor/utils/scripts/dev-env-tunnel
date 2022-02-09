@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
 trap ctrl_c SIGINT SIGTERM ERR EXIT INT
 ctrl_c () {
@@ -15,11 +14,13 @@ if [ -z $syslevel ]; then
   exit 1
 fi
 
-user_id=$(aws sts get-caller-identity --output text | awk '{ print $2 }')
+sts_info=$(aws sts get-caller-identity --output text)
+
 if [ $? == 254 ]; then
   echo "AWS Token has expired."
   exit 1
 else
+  user_id=$(echo $sts_info | awk '{ print $2 }')
   echo "AWS token is valid. Running as $user_id"
 fi
 
@@ -38,6 +39,26 @@ fi
   if [ $syslevel=='service' ]; then
     export port="4222"
     export cidr="10.0.0.0/8"
+  fi
+
+  account_id=$(echo $sts_info | awk '{ print $1 }')
+  echo "Account ID: $account_id"
+  echo $ORG
+  if [ "$account_id" == "684194535433" ]; then
+    echo "Running in AWS account: $account_id"
+    export ORG='d3b-d3b'
+    export domain="d3b.io"
+    export jenkins_url="aws-infra-jenkins-service.d3b.io"
+  elif [ "$account_id" == "232196027141" ]; then
+    echo "Running in AWS account: $account_id"
+    export ORG='aws'
+    export domain="kf-strides.org"
+    export jenkins_url="aws-infra-jenkins-service.kf-strides.org"
+  elif [ "$account_id" == "373997854230" ]; then
+    echo "Running in AWS account: $account_id"
+    export ORG='aws'
+    export domain="includedcc.org"
+    export jenkins_url="aws-infra-jenkins-service.373997854230.d3b.io"
   fi
 
 
@@ -62,13 +83,13 @@ if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }
 fi
 
 echo "getting info"
-info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='aws-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | grep -v None)
+info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='$ORG-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | tail -1)
 
 INSTANCE_ID=$(echo $info | awk '{ print $1 }')
 INSTANCE_IP=$(echo $info | awk '{ print $2 }')
 
 if [ -z $INSTANCE_ID ]; then
- echo "Could not find credentials"
+ echo "Could not find bastion host. Please contact DevOps"
  exit 1;
 fi
 
@@ -78,32 +99,12 @@ echo "ssm-ssh"
 ssm-ssh --region us-east-1 $INSTANCE_ID -L $port:$INSTANCE_IP:22 -fN 
 sed '/localhost/d' ~/.ssh/known_hosts > ~/.ssh/known_hosts_new
 cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
-jenkins_ips=$(nslookup aws-infra-jenkins-service.kf-strides.org | grep Address | tail -4 | awk '{ print $2"/32" }' | tr '\n' ' ')
+jenkins_ips=$(nslookup $jenkins_url | grep Address | tail -2 | awk '{ print $2"/32" }' | tr '\n' ' ')
 echo "Running sshuttle"
 sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $2
-  
-if [ -z $2 ]; then
-  echo "
-  ██╗  ██╗    ███████╗   
-  ██║ ██╔╝    ██╔════╝ 
-  █████╔╝     █████╗  
-  ██╔═██╗     ██╔══╝ 
-  ██║  ██╗ids ██║irst Tunnel
-  ╚═╝  ╚═╝    ╚═╝   
-  kf-strides
-  "
-else
-  echo "
-  ██████╗░    ░█████╗░
-  ██╔══██╗    ██╔══██╗
-  ██║░░██║    ██║░░╚═╝
-  ██║░░██║    ██║░░██╗
-  ██████╔╝3b  ╚█████╔╝enter
-  ╚═════╝░    ░╚════╝░
-  chopd3bprd
-  "
-fi
-
+echo "#############################" 
+echo "# Account ID is $account_id #"
+echo "#############################" 
 echo "Tunnel is open... Type \"exit\" or Crtl+C to disconnect:"
 read terminate
 if [ $terminate=="exit" ]; then
