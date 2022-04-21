@@ -68,7 +68,9 @@ fi
 
 
 if [[ "${TF_VAR_pre_deploy_config}" == "true" && "${mode}" == "deploy" ]]; then
+    cd ../
     ./playbook/pre_deploy_config
+    cd .config
 fi
 
 echo "Architecture Type: ${architecture_type}"
