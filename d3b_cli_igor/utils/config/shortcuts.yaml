@@ -5,7 +5,7 @@ kf-jenkins:
 d3b-jenkins: 
         name: "https://aws-infra-jenkins-service.d3b.io/"
         description: "Jenkins Server in CHOPD3bPRD account"
-d3b-auth0: 
+aws: 
         name: "https://d3b-center.auth0.com/samlp/0jJ4WoIhKFOgOFQQb8u27hmXHL0nZSs3"
         description: "AWS Auth0 login screen"
 devops-notion: 
