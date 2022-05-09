@@ -1,7 +1,7 @@
 set -e
-trap ctrl_c SIGINT SIGTERM ERR EXIT INT
+trap ctrl_c SIGTERM ERR EXIT INT
 ctrl_c () {
-    trap - SIGINT SIGTERM ERR EXIT INT
+    trap - SIGTERM ERR EXIT INT
     echo ""
     echo "Exiting tunnel..."
     kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
