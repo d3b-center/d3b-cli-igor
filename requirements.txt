@@ -2,7 +2,7 @@ numpy
 boto3
 colorlog
 click
-pyyaml
+pyyaml<=5.4
 datetime
 aws-ssm-tools
 auth0-login
