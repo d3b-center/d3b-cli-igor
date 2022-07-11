@@ -1,112 +1,139 @@
+#! /bin/bash
 set -e
-trap ctrl_c SIGTERM ERR EXIT INT
-ctrl_c () {
-    trap - SIGTERM ERR EXIT INT
-    echo ""
-    echo "Exiting tunnel..."
-    kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
-    exit
+trap ctrl_c TERM EXIT INT
+ctrl_c() {
+  trap - TERM EXIT INT
+  echo ""
+  echo "Exiting tunnel..."
+  kill "$(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')"
+  exit
 }
-syslevel=$1
 
-if [ -z $syslevel ]; then
-  echo "Please specify syslevel"
+check_if_syslevel_is_known() {
+  if [ "$1" != "dev" ] && [ "$1" != "qa" ] && [ "$1" != "prd" ] && [ "$1" != "service" ]; then
+    echo "You specified and unknown environment: ' $1 ' (should be one among: dev | qa | prd | service )."
+  fi
+}
+
+if [[ ${#} -eq 0 ]]; then
+  echo "Usage: $(basename $0) [-e]" 2>&1
+  echo '   -e   Target environment dev | qa | prd | service'
+  echo '   -b   shows b in the output'
+  echo ''
+  echo 'Example: '
+  echo "   $(basename "$0") -e qa"
   exit 1
 fi
+
+syslevel=$(unset)
+
+optstring="e:h"
+while getopts ${optstring} arg; do
+  case ${arg} in
+  e)
+    syslevel="${OPTARG}"
+    ;;
+  *)
+    echo "Invalid option: -${OPTARG}."
+    exit 2
+    ;;
+  esac
+done
+
+check_if_syslevel_is_known "$syslevel"
 
 sts_info=$(aws sts get-caller-identity --output text)
 
-if [ $? == 254 ]; then
+if [ $? = 254 ]; then
   echo "AWS Token has expired."
   exit 1
 else
-  user_id=$(echo $sts_info | awk '{ print $2 }')
+  user_id=$(echo "$sts_info" | awk '{ print $2 }')
   echo "AWS token is valid. Running as $user_id"
 fi
 
-  if [ $syslevel=='dev' ]; then
-    export port="1222"
-    export cidr="10.10.0.0/8"
-  fi
-  if [ $syslevel=='qa' ]; then
-    export port="2222"
-    export cidr="10.11.0.0/16"
-  fi
-  if [ $syslevel=='prd' ]; then
-    export port="3222"
-    export cidr="10.12.0.0/8"
-  fi
-  if [ $syslevel=='service' ]; then
-    export port="4222"
-    export cidr="10.0.0.0/8"
-  fi
+if [ "$syslevel" = 'dev' ]; then
+  export port="1222"
+  export cidr="10.10.0.0/8"
+fi
+if [ "$syslevel" = 'qa' ]; then
+  export port="2222"
+  export cidr="10.11.0.0/16"
+fi
+if [ "$syslevel" = 'prd' ]; then
+  export port="3222"
+  export cidr="10.12.0.0/8"
+fi
+if [ "$syslevel" = 'service' ]; then
+  export port="4222"
+  export cidr="10.0.0.0/8"
+fi
 
-  account_id=$(echo $sts_info | awk '{ print $1 }')
-  echo "Account ID: $account_id"
-  echo $ORG
-  if [ "$account_id" == "684194535433" ]; then
-    echo "Running in AWS account: $account_id"
-    export ORG='d3b-d3b'
-    export domain="d3b.io"
-    export jenkins_url="aws-infra-jenkins-service.d3b.io"
-  elif [ "$account_id" == "232196027141" ]; then
-    echo "Running in AWS account: $account_id"
-    export ORG='aws'
-    export domain="kf-strides.org"
-    export jenkins_url="aws-infra-jenkins-service.kf-strides.org"
-  elif [ "$account_id" == "373997854230" ]; then
-    echo "Running in AWS account: $account_id"
-    export ORG='aws'
-    export domain="includedcc.org"
-    export jenkins_url="aws-infra-jenkins-service.373997854230.d3b.io"
-  fi
+account_id=$(echo "$sts_info" | awk '{ print $1 }')
+echo "Account ID: $account_id"
+echo "$ORG"
+if [ "$account_id" = "684194535433" ]; then
+  echo "Running in AWS account: $account_id"
+  export ORG='d3b-d3b'
+  export domain="d3b.io"
+  export jenkins_url="aws-infra-jenkins-service.d3b.io"
+elif [ "$account_id" = "232196027141" ]; then
+  echo "Running in AWS account: $account_id"
+  export ORG='aws'
+  export domain="kf-strides.org"
+  export jenkins_url="aws-infra-jenkins-service.kf-strides.org"
+elif [ "$account_id"="373997854230" ]; then
+  echo "Running in AWS account: $account_id"
+  export ORG='aws'
+  export domain="includedcc.org"
+  export jenkins_url="aws-infra-jenkins-service.373997854230.d3b.io"
+fi
 
-
-if [ -z $AWS_PROFILE ]; then
+if [ -z "$AWS_PROFILE" ]; then
   awslogin short
   echo "###########################"
   echo "# Please choose AWS role: #"
   echo "###########################"
-  read aws_role
-  saml-login -c $aws_role aws-assume-role && export AWS_PROFILE="$aws_role"
-  echo $AWS_PROFILE
+  read -r aws_role
+  saml-login -c "$aws_role" aws-assume-role && export AWS_PROFILE="$aws_role"
+  echo "$AWS_PROFILE"
 fi
 echo "
 Opening Connection
 "
 
-if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }') ]; then
+if [ ! -z "$(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')" ]; then
   echo "Killing previous sessions"
   ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }'
-  kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
-  sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
+  kill "$(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')"
+  sudo kill "$(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')"
 fi
 
 echo "getting info"
 info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='$ORG-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | tail -1)
 
-INSTANCE_ID=$(echo $info | awk '{ print $1 }')
-INSTANCE_IP=$(echo $info | awk '{ print $2 }')
+INSTANCE_ID=$(echo "$info" | awk '{ print $1 }')
+INSTANCE_IP=$(echo "$info" | awk '{ print $2 }')
 
-if [ -z $INSTANCE_ID ]; then
- echo "Could not find bastion host. Please contact DevOps"
- exit 1;
+if [ -z "$INSTANCE_ID" ]; then
+  echo "Could not find bastion host. Please contact DevOps"
+  exit 1
 fi
 
 echo "Found instance ${INSTANCE_ID}. Connecting"
 
 echo "ssm-ssh"
-ssm-ssh --region us-east-1 $INSTANCE_ID -L $port:$INSTANCE_IP:22 -fN 
-sed '/localhost/d' ~/.ssh/known_hosts > ~/.ssh/known_hosts_new
+ssm-ssh --region us-east-1 "$INSTANCE_ID" -L $port:"$INSTANCE_IP":22 -fN
+sed '/localhost/d' ~/.ssh/known_hosts >~/.ssh/known_hosts_new
 cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
 jenkins_ips=$(nslookup $jenkins_url | grep Address | tail -2 | awk '{ print $2"/32" }' | tr '\n' ' ')
 echo "Running sshuttle"
-sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $2
-echo "#############################" 
+sshuttle -vvv --daemon --dns -r localhost:$port $cidr "$jenkins_ips" "$2"
+echo "#############################"
 echo "# Account ID is $account_id #"
-echo "#############################" 
+echo "#############################"
 echo "Tunnel is open... Type \"exit\" or Crtl+C to disconnect:"
-read terminate
-if [ $terminate=="exit" ]; then
+read -r terminate
+if [ "$terminate" = "exit" ]; then
   ctrl_c INT
 fi
