@@ -13,7 +13,7 @@ syslevel=$1
 cidr_blocks=$2
 
 if [[ ! "$syslevel" =~ ^(dev|qa|prd|service)$ ]]; then
-  echo "You specified and unknown environment $1 (should be among: dev | qa | prd | service )."
+  echo "You specified an unknown environment $1 (should be among: dev | qa | prd | service )."
   exit 1
 fi
 
