@@ -5,45 +5,19 @@ ctrl_c() {
   trap - TERM EXIT INT
   echo ""
   echo "Exiting tunnel..."
-  kill "$(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')"
+  kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
   exit
 }
 
-check_if_syslevel_is_known() {
-  if [ "$1" != "dev" ] && [ "$1" != "qa" ] && [ "$1" != "prd" ] && [ "$1" != "service" ]; then
-    echo "You specified and unknown environment: ' $1 ' (should be one among: dev | qa | prd | service )."
-  fi
-}
+syslevel=$1
+cidr_blocks=$2
 
-if [[ ${#} -eq 0 ]]; then
-  echo "Usage: $(basename $0) [-e]" 2>&1
-  echo '   -e   Target environment dev | qa | prd | service'
-  echo '   -b   shows b in the output'
-  echo ''
-  echo 'Example: '
-  echo "   $(basename "$0") -e qa"
+if [ "$syslevel" != "dev" ] && [ "$syslevel" != "qa" ] && [ "$syslevel" != "prd" ] && [ "$syslevel" != "service" ]; then
+  echo "You specified and unknown environment $1 (should be among: dev | qa | prd | service )."
   exit 1
 fi
 
-syslevel=$(unset)
-
-optstring="e:h"
-while getopts ${optstring} arg; do
-  case ${arg} in
-  e)
-    syslevel="${OPTARG}"
-    ;;
-  *)
-    echo "Invalid option: -${OPTARG}."
-    exit 2
-    ;;
-  esac
-done
-
-check_if_syslevel_is_known "$syslevel"
-
 sts_info=$(aws sts get-caller-identity --output text)
-
 if [ $? = 254 ]; then
   echo "AWS Token has expired."
   exit 1
@@ -82,7 +56,7 @@ elif [ "$account_id" = "232196027141" ]; then
   export ORG='aws'
   export domain="kf-strides.org"
   export jenkins_url="aws-infra-jenkins-service.kf-strides.org"
-elif [ "$account_id"="373997854230" ]; then
+elif [ "$account_id" = "373997854230" ]; then
   echo "Running in AWS account: $account_id"
   export ORG='aws'
   export domain="includedcc.org"
@@ -98,23 +72,21 @@ if [ -z "$AWS_PROFILE" ]; then
   saml-login -c "$aws_role" aws-assume-role && export AWS_PROFILE="$aws_role"
   echo "$AWS_PROFILE"
 fi
+
 echo "
 Opening Connection
 "
-
-if [ ! -z "$(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')" ]; then
+if [ ! -z $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }') ]; then
   echo "Killing previous sessions"
   ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }'
-  kill "$(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')"
-  sudo kill "$(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')"
+  kill $(ps -ef | grep "ssm start-session" | grep -v grep | awk '{ print $2 }')
+  sudo kill $(ps -ef | grep "sshuttle" | grep -v grep | awk '{ print $2 }')
 fi
 
 echo "getting info"
 info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='$ORG-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | tail -1)
-
 INSTANCE_ID=$(echo "$info" | awk '{ print $1 }')
 INSTANCE_IP=$(echo "$info" | awk '{ print $2 }')
-
 if [ -z "$INSTANCE_ID" ]; then
   echo "Could not find bastion host. Please contact DevOps"
   exit 1
@@ -126,9 +98,11 @@ echo "ssm-ssh"
 ssm-ssh --region us-east-1 "$INSTANCE_ID" -L $port:"$INSTANCE_IP":22 -fN
 sed '/localhost/d' ~/.ssh/known_hosts >~/.ssh/known_hosts_new
 cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
+
 jenkins_ips=$(nslookup $jenkins_url | grep Address | tail -2 | awk '{ print $2"/32" }' | tr '\n' ' ')
+
 echo "Running sshuttle"
-sshuttle -vvv --daemon --dns -r localhost:$port $cidr "$jenkins_ips" "$2"
+sshuttle -vvv --daemon --dns -r localhost:$port $cidr $jenkins_ips $cidr_blocks | xargs
 echo "#############################"
 echo "# Account ID is $account_id #"
 echo "#############################"
