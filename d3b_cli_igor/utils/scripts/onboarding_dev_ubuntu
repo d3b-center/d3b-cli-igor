@@ -11,7 +11,7 @@ echo "
 #                                                                        |___/
  for Ubuntu"
 echo "Install Sshuttle, ssm-tools, auth0-login"
-pip3 install sshuttle aws-ssm-tools auth0-login 
+sudo pip3 install sshuttle aws-ssm-tools auth0-login 
 sshuttle --sudoers
 sudo apt install hub
 echo "Install AWSCLI"

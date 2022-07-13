@@ -11,7 +11,7 @@ echo "
 #                                                                        |___/
  for Mac"
 echo "Install Sshuttle, ssm-tools, auth0-login"
-pip3 install sshuttle aws-ssm-tools auth0-login 
+sudo pip3 install sshuttle aws-ssm-tools auth0-login 
 sshuttle --sudoers
 echo "Install Hub from GitHub"
 brew install hub
