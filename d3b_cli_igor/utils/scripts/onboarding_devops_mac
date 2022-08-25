@@ -13,7 +13,8 @@ echo "
 echo "Install Ansible, Checkov, Sshuttle, ssm-tools, auth0-login"
 terraform_version="1.1.5"
 packer_version="1.7.4"
-pip3 install ansible checkov sshuttle aws-ssm-tools auth0-login 
+sudo pip3 install sshuttle
+pip3 install ansible checkov aws-ssm-tools auth0-login 
 echo "Install Hub from GitHub"
 brew install hub
 echo "Install AWSCLI"
@@ -34,11 +35,7 @@ rm -rf packer_*.zip
 cp ./packer /usr/local/bin/packer
 rm -rf packer
 echo "Install AWS Session Manager"
-curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
-unzip sessionmanager-bundle.zip
-sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
-rm -rf sessionmanager-bundle.zip
-rm -rf sessionmanager-bundle
+brew install session-manager-plugin
 echo "Install Terraform-Docs"
 brew install terraform-docs
 if [ -z ~/.aws ]; then
