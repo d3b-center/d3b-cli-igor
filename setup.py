@@ -20,7 +20,7 @@ setuptools.setup(
     ],
     author="Alex Lubneuski",
     author_email="alex@d3b.center",
-    description="D3b DevOps-y Tool",
+    description="D3b Tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/d3b-center/d3b-cli-igor",

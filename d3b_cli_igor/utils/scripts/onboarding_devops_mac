@@ -14,7 +14,6 @@ echo "Install Ansible, Checkov, Sshuttle, ssm-tools, auth0-login"
 terraform_version="1.1.5"
 packer_version="1.7.4"
 pip3 install ansible checkov sshuttle aws-ssm-tools auth0-login 
-sshuttle --sudoers
 echo "Install Hub from GitHub"
 brew install hub
 echo "Install AWSCLI"
