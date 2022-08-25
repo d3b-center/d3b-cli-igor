@@ -17,6 +17,7 @@ sudo pip3 install sshuttle
 pip3 install ansible checkov aws-ssm-tools auth0-login 
 echo "Install Hub from GitHub"
 brew install hub
+brew install wget 
 echo "Install AWSCLI"
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 sudo installer -pkg AWSCLIV2.pkg -target /
