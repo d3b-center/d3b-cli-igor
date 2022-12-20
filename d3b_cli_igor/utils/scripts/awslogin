@@ -3,11 +3,6 @@ echo "[DEFAULT]
 idp_url=https://d3b-center.auth0.com
 client_id=YWUQKnBQ25J9htQ7AWRByzhHf6lxrbQN
 
-if [ -z ~/.aws ]; then
-  mkdir ~/.aws
-  touch ~/.aws/credentials
-fi
-
 " > ~/.saml-login
 saml-login aws-assume-role --show >> ~/.saml-login
 cat ~/.saml-login | grep -v DEFAULT | grep "\[" | awk -F\[ '{ print $2}' | awk -F\] '{print $1}' > ~/.saml_menu
