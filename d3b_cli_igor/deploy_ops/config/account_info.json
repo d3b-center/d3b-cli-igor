@@ -32,6 +32,20 @@
        "subnet_prefix"         : "apps",
        "azs"                   : "[\"a\",\"b\"]"
     },
+   "ml-research":
+   {
+       "state_files_bucket"    : "-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-d3b-ml-research01-dev",
+       "account_id"	       : "381376188863",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.32.192/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-d3b-ml-research01-dev.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-d3b-ml-research01-dev.aws.cloud.chop.edu",
+       "vpc_prefix"            : "apps",
+       "subnet_prefix"         : "apps",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
    "sandbox":
    {
        "state_files_bucket"    : "sandbox-remote-state-files",
