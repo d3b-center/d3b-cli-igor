@@ -13,23 +13,25 @@ Installation
  ./setup.sh
 ~~~
 
-
 Operations
 ==========
 
-get-logs 
+get-logs
 --------
+
 Get logs for a specific application
 --------
 
 ***Usage:***
 This will print application logs for kf-api-arranger for the past 2 hours (keep in mind it defaults to 2000 lines max)
+
 ~~~
  igor get-logs --app kf-api-arranger --environment prd --hours 2 
 ~~~
 
-restart 
+restart
 -------
+
 Executes new deployment for a service
 -------
 
@@ -41,7 +43,7 @@ This example with create a new deployment for the ecs service.
 igor restart --app kf-cbioportal --environment qa --account kf-strides
 ~~~
 
-deploy 
+deploy
 ------
 
 Deploy application from current directory. This operation supports modules in kids-first organization. This command requires to have Jenkinsfile to be in the same directory.
@@ -51,7 +53,7 @@ Options:
 
 ***Usage:***
 
-This example show how to deploy a application into kf-strides account , us-east-1 region and dev environment. 
+This example show how to deploy a application into kf-strides account , us-east-1 region and dev environment.
 
 ~~~
 igor deploy --mode plan --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev --config_file Jenkinsfile
@@ -59,14 +61,15 @@ igor deploy --mode apply --account_name kf-strides --organization kf-strides --r
 igor deploy --mode destroy --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev --config_file Jenkinsfile
 ~~~
 
-The command also supports wildcards. When using wildcards prefix your config file with .deploy. So for instance config files with names some_config.deploy and other_config.deploy both will be executed. 
+The command also supports wildcards. When using wildcards prefix your config file with .deploy. So for instance config files with names some_config.deploy and other_config.deploy both will be executed.
 
 ~~~
 igor deploy --mode apply --account_name kf-strides --organization kf-strides --region us-east-1 --environment dev  --mode destroy --config_file *.deploy 
 ~~~
 
-check-build 
+check-build
 -----------
+
 (works with Mac only) Opens web page for Jenkins for a particular github repo. You have to be in the directory of that repo in order for this command to work. Also you must pass which instance of Jenkins you want to see (kf-strides, chopd3bPrd).
 
 ***Usage:***
@@ -77,7 +80,8 @@ igor check-build --account [kf-strides,chopd3bPrd]
 
 github-open
 -----------
-(works with Mac only) Opens web page for github.com for a particular github repo. You have to be in the directory of that repo in order for this command to work. 
+
+(works with Mac only) Opens web page for github.com for a particular github repo. You have to be in the directory of that repo in order for this command to work.
 
 ***Usage:***
 
@@ -85,9 +89,10 @@ github-open
 igor github-open 
 ~~~
 
-awslogin 
+awslogin
 --------
-Login to aws using Auth0. 
+
+Login to aws using Auth0.
 
 ***Usage:***
 
@@ -95,13 +100,15 @@ Login to aws using Auth0.
 igor awslogin
 ~~~
 
-shortcuts 
+shortcuts
 ---------
+
 Print out the list of important shortcuts
 
 ***Usage:***
 
 Show all shortcuts and open Jenkins server web page
+
 ~~~
 igor shortcuts --show
   kf-jenkins : Jenkins Server in KidsFirst Strides account
@@ -114,8 +121,9 @@ igor shortcuts --show
 igor shortcuts --name kf-jenkins 
 ~~~
 
-dev-env-tunnel 
+dev-env-tunnel
 --------------
+
 Open ssh tunnel
 
 ***Usage:***
@@ -126,6 +134,7 @@ igor dev-env-tunnel --environment [dev,qa,prd,service]
 
 onboarding
 ----------
+
 Install software that required for a specific role
 
 ***Usage:***
@@ -134,9 +143,9 @@ Install software that required for a specific role
 igor onboarding --role devops --install_os mac
 ~~~
 
-
 get-info
 ----------
+
 Igor will look for an availble inforamtion about an application. This command will try to gather information about RDS, tasks, deployments etc. and present it in basic view.
 
 ***Usage:***
@@ -145,3 +154,7 @@ Igor will look for an availble inforamtion about an application. This command wi
 igor get-info --app kf-keycloak --environment qa --account kf-strides
 ~~~
 
+Developing Igor
+===============
+
+Igor releases are managed by the [d3b-release-maker](https://github.com/d3b-center/d3b-release-maker/). Please follow the instructions there to build releases.
