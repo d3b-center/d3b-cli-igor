@@ -6,10 +6,24 @@ IGOR stands for ... actually it does not stands for anything. It just a tool to 
 Installation
 ============
 
+Recommended Installation
+------------------------
+
+We recommend installing IGOR with [`pipx`](https://pypa.github.io/pipx). `pipx` can be installed on MacOS with `brew` and on  Linux and Windows with `pip`. `pipx` is recommended over other methods because it installs the CLI in its own virtual environment and then puts the CLI on your machine's `PATH`. Please follow the instructions for installing `pipx` [here](https://pypa.github.io/pipx/installation/)
+
+After installing `pipx`, to install IGOR, run:
+
+~~~sh
+pipx install git+https://github.com/d3b-center/d3b-cli-igor.git@latest-release
+~~~
+
+Manual Installation
+-------------------
+
 1. Clone repo
 2. Execute the following script:
 
-~~~
+~~~sh
  ./setup.sh
 ~~~
 
