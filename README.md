@@ -131,6 +131,7 @@ igor shortcuts --show
   devops-notion : DevOps Notion.so Page
   github-d3bcenter : D3b Center Github Account
   github-kidsfirst : KidsFirst Github Account
+  aws-accounts : AWS Accounts Information Notion Page
 
 igor shortcuts --name kf-jenkins 
 ~~~
