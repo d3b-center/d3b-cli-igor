@@ -94,8 +94,9 @@ fi
 
 echo "Found instance ${INSTANCE_ID}. Connecting"
 
-echo "ssm-ssh"
-ssm-ssh --region us-east-1 "$INSTANCE_ID" -L $port:"$INSTANCE_IP":22 -fN
+echo "ec2-ssh"
+ec2-ssh --region us-east-1 ssm-user@"$INSTANCE_ID" -L $port:"$INSTANCE_IP":22 -fN
+
 sed '/localhost/d' ~/.ssh/known_hosts >~/.ssh/known_hosts_new
 cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
 
