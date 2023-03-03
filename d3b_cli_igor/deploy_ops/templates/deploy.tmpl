@@ -33,7 +33,7 @@ mkdir -p .tmp_deployment/.standard
 rsync -av --progress $TF_VAR_branch/* .tmp_deployment/.standard/ --exclude tests 
 rsync -av --progress $TF_VAR_branch/.config .tmp_deployment/.standard/ --exclude tests 
 fi
-git clone --depth=1 -b master git@github.com:d3b-center/aws-infra-deployment.git .tmp_deployment/.deployment
+git clone --depth=1 -b $TF_VAR_deploy_script_version git@github.com:d3b-center/aws-infra-deployment.git .tmp_deployment/.deployment
 cd .tmp_deployment
 #Remove unnecessary files
 rm -rf .standard/tests

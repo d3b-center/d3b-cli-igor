@@ -11,6 +11,11 @@ logger = d3b_cli_igor.common.get_logger(
 )
 
 def execute_deploy(account_name, organization, region, environment, config_file, mode, debug=False):
+    if (mode == "generate"):
+        d3b_cli_igor.deploy_ops.generate_config.generate(
+            account_name, organization, region, environment, config_file, mode
+        )
+        sys.exit(1)
     d3b_cli_igor.deploy_ops.generate_config.generate(
         account_name, organization, region, environment, config_file, mode
     )

@@ -58,7 +58,7 @@ def get_logs(app, environment, query, hours):
 @click.option("--region", nargs=1, required=True)
 @click.option("--environment", nargs=1, required=True)
 @click.option("--config_file", nargs=1, default="Jenkinsfile", required=False)
-@click.option("--mode", type=click.Choice(['plan', 'build', 'apply', 'destroy']),  nargs=1, default="apply", required=False)
+@click.option("--mode", type=click.Choice(['plan', 'build', 'apply', 'destroy', 'generate']),  nargs=1, default="apply", required=False)
 @click.option("--debug", is_flag=True, required=False)
 def deploy(account_name, organization, region, environment, config_file, mode, debug):
     check_creds()
