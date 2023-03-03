@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ -z ~/.aws ]; then
+  mkdir ~/.aws
+  touch ~/.aws/credentials
+fi
+
 echo "[DEFAULT]
 idp_url=https://d3b-center.auth0.com
 client_id=YWUQKnBQ25J9htQ7AWRByzhHf6lxrbQN
