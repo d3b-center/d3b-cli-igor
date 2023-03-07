@@ -24,6 +24,10 @@ if [ ! -z $TF_VAR_application ]; then
   TF_VAR_projectName=$TF_VAR_application
 fi
 
+if [ ! -z $TF_VAR_deploy_script_version]; then
+  TF_VAR_deploy_script_version="master"
+fi
+
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 if [ $TF_VAR_branch != "../" ] && [ $TF_VAR_branch != "../../" ]; then
 git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
