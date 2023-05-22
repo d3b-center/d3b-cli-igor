@@ -169,6 +169,18 @@ Igor will look for an availble inforamtion about an application. This command wi
 igor get-info --app kf-keycloak --environment qa --account kf-strides
 ~~~
 
+secrets
+-------
+
+Igor will retrieve secrets for a specific application.
+
+***Usage***
+
+~~~
+igor secrets --app kf-keycloak --environment qa --region us-east-1 --account kf-strides
+~~~
+
+
 Developing Igor
 ===============
 
