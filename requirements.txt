@@ -5,4 +5,4 @@ click
 pyyaml>=5.4
 datetime
 aws-ssm-tools
-auth0-login
+auth0-login<=0.5.2
