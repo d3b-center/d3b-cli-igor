@@ -15,7 +15,6 @@ config_file = "config/account_info.json"
 
 #Get files in the folder
 def get_files(path):
-    print(path)
     filelist = []
 
     for root, dirs, files in os.walk(path):
@@ -41,7 +40,6 @@ def generate(project, region, account, environment, template_name):
         #Generate template
         template_path = file[file.find("templates"):len(file)]
         template = templateEnv.get_template(template_path)
-        output = template.render(project=project, region=region, account=account, environment=environment, state_files_bucket=d3b_cli_igor.common.get_account_info()[account]["state_files_bucket"])
-        print(output)
+        output = template.render(project=project, region=region, account=account, environment=environment, state_files_bucket=d3b_cli_igor.common.get_account_info()[account]["state_files_bucket"], account_id=d3b_cli_igor.common.get_account_info()[account]["account_id"],azs=d3b_cli_igor.common.get_account_info()[account]["azs"])
         with(open(template_path[len("templates/"+template_name+"/"):len(template_path)], "w")) as f:
             f.write(output)
