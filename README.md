@@ -183,7 +183,7 @@ igor secrets --app kf-keycloak --environment qa --region us-east-1 --account kf-
 generate
 --------
 
-Igor will generate a standard template with replacing following variables:
+Igor will generate a standard template and will replace variables.
 
 ***Usage***
 
