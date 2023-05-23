@@ -182,7 +182,7 @@ def get_info(app, environment, account, region):
 def generate_tf_module_files(project,region,account_name,environment,module):
     d3b_cli_igor.deploy_ops.generate_config.generate_tf_module_files(project,region,account_name, environment,module)
 
-@click.command(name="generate-tf")
+@click.command(name="generate")
 @click.option('--project',nargs=1,required=True)
 @click.option('--region',nargs=1,required=True)
 @click.option('--account',nargs=1,required=True)
