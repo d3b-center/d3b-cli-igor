@@ -191,7 +191,8 @@ Igor will generate a standard template and will replace variables.
 igor generate --project route_53_healthchecks --environment qa --account kf-strides --region us-east-1 --template simple-tf
 ~~~
 
-In this example, "igor" will generate files based on the "simple-tf" template. It will replace placeholders for account, environment, project, region with values supplied values. Additionally, igor will look into accounts_info.json file and replace any values there. In our case it will look up a bucket for terraform state files. 
+In this example, "igor" will generate files based on the "simple-tf" template. It will replace placeholders for account, environment, project, region with values supplied values. Additionally, igor will replace values in templates that found in accounts_info.json file. 
+In our case it will look up a bucket for terraform state files. 
 You can add more templates here:
 
 ~~~
