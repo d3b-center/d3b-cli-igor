@@ -180,6 +180,23 @@ Igor will retrieve secrets for a specific application.
 igor secrets --app kf-keycloak --environment qa --region us-east-1 --account kf-strides
 ~~~
 
+generate
+--------
+
+Igor will generate a standard template with replacing following variables:
+
+***Usage***
+
+~~~
+igor generate --project route_53_healthchecks --environment qa --account kf-strides --region us-east-1 --template simple-tf
+~~~
+
+In this example, "igor" will generate files based on the "simple-tf" template. It will replace placeholders for account, environment, project, region with values supplied values. Additionally, igor will look into accounts_info.json file and replace any values there. In our case it will look up a bucket for terraform state files. 
+You can add more templates here:
+
+~~~
+d3b_cli_igor/utils/templates
+~~~
 
 Developing Igor
 ===============
