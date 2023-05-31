@@ -1,5 +1,14 @@
 #Variables goes here
 variable "environment" {
     description="Environment name"
-    environment="{{ environment }}"
+    default="{{ environment }}"
+}
+
+variable "region" {
+    description="AWS Region"
+    default="{{ region }}"
+}
+
+variable "image_tag" {
+    description="Docker Image Tag in ECR"
 }

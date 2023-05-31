@@ -24,7 +24,7 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     if [[ "${1:-}" == "--help" ]]; then
         usage
     else
-        TERRAFORM_DIR="$(dirname "$0")/../deployment/terraform"
+        TERRAFORM_DIR="$(dirname "$0")/../terraform"
         echo
         echo "Attempting to deploy application version [${GIT_COMMIT}]..."
         echo "-----------------------------------------------------"
@@ -44,34 +44,32 @@ fi
             rm -rf .terraform terraform.tfstate*
 
             terraform init \
-                -backend-config="bucket=${BUCKET}" \
-                -backend-config="key=${project_name}/terraform/state" \
+                -backend-config="backend.conf" 
 
 
             terraform plan \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
-                -out="${ACCOUNT}/${REGION}/${ENVIRONMENT}/plan.tfplan"
+                -var-file="variables.tfvars" \
+                -out="plan.tfplan"
             ;;
         plan-destroy)
             # Clear stale modules & remote state, then re-initialize
             rm -rf .terraform terraform.tfstate*
 
             terraform init \
-                -backend-config="bucket=${BUCKET}" \
-                -backend-config="key=${project_name}/terraform/state" \
+                -backend-config="backend.conf" 
 
 
             terraform plan \
                 -destroy \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
-                -out="${ACCOUNT}/${REGION}/${ENVIRONMENT}/plan.tfplan"
+                -var-file="variables.tfvars" \
+                -out="plan.tfplan"
             ;;
         apply)
-                terraform apply "${ACCOUNT}/${REGION}/${ENVIRONMENT}/plan.tfplan"
+                terraform apply "plan.tfplan"
 		echo "Apply terraform"
             ;;
         *)
