@@ -1,8 +1,6 @@
 #!/bin/bash
-
-project_name=$(basename `pwd`)
-echo $project_name
 set -e
+source ./scripts/config
 
 if [[ -n "${ETL_DEBUG}" ]]; then
     set -x
