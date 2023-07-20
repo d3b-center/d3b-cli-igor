@@ -1,0 +1,6 @@
+services:
+  $project_name:
+    image: $project_name:${GIT_COMMIT:-latest}
+    build:
+        context: .
+        dockerfile: Dockerfile
