@@ -44,13 +44,13 @@ fi
             rm -rf .terraform terraform.tfstate*
 
             terraform init \
-                -backend-config="backend.conf" 
+                -backend-config="${ACCOUNT}/${REGION}/${ENVIRONMENT}/backend.conf" 
 
 
             terraform plan \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="variables.tfvars" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
                 -out="plan.tfplan"
             ;;
         plan-destroy)
@@ -58,14 +58,14 @@ fi
             rm -rf .terraform terraform.tfstate*
 
             terraform init \
-                -backend-config="backend.conf" 
+                -backend-config="${ACCOUNT}/${REGION}/${ENVIRONMENT}/backend.conf" 
 
 
             terraform plan \
                 -destroy \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="variables.tfvars" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
                 -out="plan.tfplan"
             ;;
         apply)
