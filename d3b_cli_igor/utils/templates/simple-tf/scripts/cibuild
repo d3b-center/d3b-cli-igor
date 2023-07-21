@@ -1,8 +1,7 @@
 #!/bin/bash
-
-project_name=$(basename `pwd`)
-echo $project_name
 set -e
+dir=$(find . -name "scripts/config")
+source $(dirname $dir)/config
 
 if [[ -n "${ETL_DEBUG}" ]]; then
     set -x

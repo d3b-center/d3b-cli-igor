@@ -1,8 +1,8 @@
 #!/bin/bash
 
 set -e
-source ./scripts/config
-
+dir=$(find . -name "scripts/config")
+source $(dirname $dir)/config
 
 function usage() {
     echo -n \
