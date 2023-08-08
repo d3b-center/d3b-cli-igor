@@ -1,7 +1,32 @@
 #!/bin/bash
 set -e
-dir=$(find . -name "scripts/config")
-source $(dirname $dir)/config
+config_file=$(find . -name "config" | grep scripts)
+source $config_file
+
+#Check for required variables
+if [[ -z "${ENVIRONMENT}" ]]; then
+    echo "Please set ENVIRONMENT variable (e.g. ENVIRONMENT=dev)"
+   exit 1
+fi
+
+if [[ -z "${REGION}" ]]; then
+    echo "Please set REGION variable (e.g. REGION='us-east-1')"
+   exit 1
+fi
+
+if [[ -z "${ACCOUNT}" ]]; then
+    echo "Please set ACCOUNT variable (e.g. ACCOUNT='kf-strides')"
+   exit 1
+fi
+
+if [[ -z "${ACCOUNT_ID}" ]]; then
+    echo "Please set ACCOUNT_ID variable (e.g. ACCOUNT_ID='123455995504')"
+   exit 1
+fi
+
+if [[ -z "${project}" ]]; then
+    echo "Please set project variable (e.g. project='test-project')"
+fi
 
 if [[ -n "${DEBUG}" ]]; then
     set -x
@@ -50,7 +75,7 @@ fi
             terraform plan \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="variables.tfvars" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
                 -out="plan.tfplan"
             ;;
         plan-destroy)
@@ -58,14 +83,14 @@ fi
             rm -rf .terraform terraform.tfstate*
 
             terraform init \
-                -backend-config="backend.conf" 
+                -backend-config="${ACCOUNT}/${REGION}/${ENVIRONMENT}/backend.conf" 
 
 
             terraform plan \
                 -destroy \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="variables.tfvars" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
                 -out="plan.tfplan"
             ;;
         apply)

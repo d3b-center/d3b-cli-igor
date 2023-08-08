@@ -1,6 +1,1 @@
-BUCKET="{{ account }}-{{ account_id }}-{{ region }}-{{ environment }}-secrets"
 project_name="{{ project }}"
-ACCOUNT="{{ account }}"
-REGION="{{ region }}"
-ACCOUNT_ID="{{ account_id }}"
-ENVIRONMENT="{{ environment }}"

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 set -e
-dir=$(find . -name "scripts/config")
-source $(dirname $dir)/config
+config_file=$(find . -name "config" | grep scripts)
+source $config_file
 
 function usage() {
     echo -n \
