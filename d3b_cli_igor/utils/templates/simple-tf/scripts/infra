@@ -69,7 +69,7 @@ fi
             rm -rf .terraform terraform.tfstate*
 
             terraform init \
-                -backend-config="backend.conf" 
+                -backend-config="${ACCOUNT}/${REGION}/${ENVIRONMENT}/backend.conf" 
 
 
             terraform plan \
