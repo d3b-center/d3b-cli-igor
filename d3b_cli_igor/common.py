@@ -4,6 +4,7 @@ import sys
 import colorlog
 import numpy
 import boto3
+import os,json
 from pathlib import Path
 
 logger = logging.getLogger()
@@ -20,6 +21,14 @@ RESULT_FAILURE = {"Result": "failure"}
 RESULT_ABORTED = {"Result": "aborted"}
 AVAILABLE_OPERATIONS = ["delete_objects", "delete_bucket", "md5check", "thaw_objects"]
 
+path = os.path.dirname(__file__)
+config_file = "config/account_info.json"
+
+def get_account_info():
+    account_information={}
+    with open(path + "/" + config_file ) as json_file:
+        account_information = json.load(json_file)
+    return account_information
 
 def setup(client_name=""):
     client = boto3.client(client_name)
