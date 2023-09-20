@@ -66,15 +66,6 @@ def secrets(app, environment, account, region):
 def get_logs(app, environment, query, hours):
     d3b_cli_igor.log_ops.app_logs.get_app_logs(app, environment, query, hours)
 
-@click.command(name="generate-tf-module-files")
-@click.option('--project',nargs=1,required=True)
-@click.option('--region',nargs=1,required=True)
-@click.option('--account_name',nargs=1,required=True)
-@click.option('--environment',nargs=1,required=True)
-@click.option('--module',nargs=1,required=True)
-def generate_tf_module_files(project,region,account_name,environment,module):
-    d3b_cli_igor.deploy_ops.generate_config.generate_tf_module_files(project,region,account_name, environment,module)
-
 @click.command(name="deploy")
 @click.option("--account_name", nargs=1, required=True)
 @click.option("--organization", nargs=1, required=True)
@@ -196,7 +187,7 @@ def generate_tf_module_files(project,region,account_name,environment,module):
 @click.option('--account',nargs=1,required=True)
 @click.option('--environment',nargs=1,required=True)
 @click.option('--template',nargs=1,required=True)
-def generate_tf_module_files(project,region,account,environment,template):
+def generate(project,region,account,environment,template):
     d3b_cli_igor.utils.generate_tf.generate(project,region,account, environment,template)
 
 
@@ -208,6 +199,7 @@ igor_cli.add_command(get_info)
 igor_cli.add_command(secrets)
 igor_cli.add_command(deploy)
 igor_cli.add_command(generate_tf_module_files)
+igor_cli.add_command(generate)
 igor_cli.add_command(shortcuts)
 igor_cli.add_command(check_build)
 igor_cli.add_command(github_open)
