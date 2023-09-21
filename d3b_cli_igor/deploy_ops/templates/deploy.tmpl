@@ -30,7 +30,7 @@ fi
 
 export BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 if [ $TF_VAR_branch != "../" ] && [ $TF_VAR_branch != "../../" ]; then
-git clone --depth=1 -b $TF_VAR_branch git@github.com:kids-first/$architecture_type-module.git .tmp_deployment/.standard
+git clone --depth=1 -b $TF_VAR_branch git@github.com:d3b-infra/$architecture_type-module.git .tmp_deployment/.standard
 else
 pwd
 mkdir -p .tmp_deployment/.standard
