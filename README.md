@@ -60,7 +60,7 @@ igor restart --app kf-cbioportal --environment qa --account kf-strides
 deploy
 ------
 
-Deploy application from current directory. This operation supports modules in kids-first organization. This command requires to have Jenkinsfile to be in the same directory.
+Deploy application from current directory. This operation supports modules in d3b-infra organization. This command requires to have Jenkinsfile to be in the same directory.
 
 Options:
  [] mode - Choose between 4 modes : build, plan, apply, destroy. Build mode will do a standard docker build. Plan will create plan of resources that will be created. Deploy mode will execute terraform apply command.
