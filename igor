@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 import click
-import time
-import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff, d3b_cli_igor.app_ops.ecs_get_info, d3b_cli_igor.app_ops.secrets, d3b_cli_igor.utils.generate_tf
-import boto3
 import boto3
 import sys 
-import d3b_cli_igor.common
+import time
+import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.app_ops.ecr_actions, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff, d3b_cli_igor.app_ops.ecs_get_info, d3b_cli_igor.app_ops.secrets, d3b_cli_igor.utils.generate_tf
 
 logger = d3b_cli_igor.common.get_logger(
     __name__, testing_mode=False, log_format="detailed"
@@ -158,6 +156,11 @@ def restart(app, environment, account):
     check_creds()
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
+@click.command(name="ecr_cleanup")
+def ecr_cleanup():
+    check_creds()
+    d3b_cli_igor.app_ops.ecr_actions.ecr_cleanup()
+
 @click.command(name="get-info")
 @click.option(
     "--app",
@@ -194,6 +197,7 @@ def generate(project,region,account,environment,template):
 
 
 igor_cli.add_command(get_logs)
+igor_cli.add_command(ecr_cleanup)
 igor_cli.add_command(restart)
 igor_cli.add_command(get_info)
 igor_cli.add_command(secrets)
