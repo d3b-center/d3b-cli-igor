@@ -156,10 +156,16 @@ def restart(app, environment, account):
     check_creds()
     d3b_cli_igor.app_ops.ecs_deployment.restart(app, environment, account)
 
+@click.option(
+    "--repos",
+    nargs=1,
+    required=False,
+    help="Enter Repository Name to Cleanup(comma separated)",
+)
 @click.command(name="ecr_cleanup")
-def ecr_cleanup():
+def ecr_cleanup(repos):
     check_creds()
-    d3b_cli_igor.app_ops.ecr_actions.ecr_cleanup()
+    d3b_cli_igor.app_ops.ecr_actions.ecr_cleanup(repos.split(','))
 
 @click.command(name="get-info")
 @click.option(
