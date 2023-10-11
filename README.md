@@ -195,6 +195,21 @@ In this example, "igor" will generate files based on the "simple-tf" template. I
 In our case it will look up a bucket for terraform state files. 
 You can add more templates here:
 
+ecr_cleanup
+--------
+
+Igor will cleanup non-active images from specified repositories. It will check ECS Task Definitions and PRD Clusters. 
+
+***Usage***
+
+~~~
+igor ecr_cleanup --repos test_ecr, test1_ecr
+~~~
+
+In this example, "igor" will generate files based on the "simple-tf" template. It will replace placeholders for account, environment, project, region with values supplied values. Additionally, igor will replace values in templates that found in accounts_info.json file. 
+In our case it will look up a bucket for terraform state files. 
+You can add more templates here:
+
 ~~~
 d3b_cli_igor/utils/templates
 ~~~
