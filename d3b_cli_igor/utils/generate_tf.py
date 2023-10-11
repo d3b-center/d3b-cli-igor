@@ -42,10 +42,10 @@ def generate(project, region, account, environment, template_name):
         print(file)
         template_path = file[file.find("templates"):len(file)]
         #Create folder structure
-        #template_path_structure=template_path[len("templates/"+template_name+"/"):]
+        template_path_structure=template_path[len("templates/"+template_name+"/"):]
         #if(not os.path.exists(os.path.dirname(template_path_structure))):
         #    print(os.path.dirname(template_path_structure))
-            #os.makedirs(os.path.dirname(template_path_structure))
+        #    os.makedirs(os.path.dirname(template_path_structure))
         template = templateEnv.get_template(template_path)
         output = template.render(project=project, region=region, account=account, environment=environment, state_files_bucket=d3b_cli_igor.common.get_account_info()[account]["state_files_bucket"], account_id=d3b_cli_igor.common.get_account_info()[account]["account_id"],azs=d3b_cli_igor.common.get_account_info()[account]["azs"])
         with(open(template_path[len("templates/"+template_name+"/"):len(template_path)], "w")) as f:

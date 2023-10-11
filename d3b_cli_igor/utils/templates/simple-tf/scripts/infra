@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-config_file=$(find . -name "config" | grep scripts)
+config_file=$(find . -name "deploy_config" | grep scripts)
 source $config_file
 
 #Check for required variables
