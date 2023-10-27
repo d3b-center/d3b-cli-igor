@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="d3b-cli-igor",
-    version="0.1",
+    version="0.2",
     scripts=[
         "igor",
         "d3b_cli_igor/utils/scripts/awslogin",
