@@ -110,6 +110,21 @@
        "vpc_prefix"        : "apps",
        "subnet_prefix"     : "apps",
        "azs"               : "[\"a\",\"b\",\"c\",\"e\"]"
-    } 
+    },
+   "genai":
+   {
+       "state_files_bucket": "genai-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-d3baidev01-dev",
+       "account_id"	       : "205475332754",
+       "organization"      : "d3b",
+       "dev_cidr"          : "[ \"172.22.45.192/26\"]",
+       "instance_type"     : "db.t2.small",
+       "domain_external"   : "aws-research-7225140000-d3baidev01-dev.aws.cloud.chop.edu",
+       "domain_internal"   : "aws-research-7225140000-d3baidev01-dev.aws.cloud.chop.edu",
+       "vpc_prefix"        : "baseline-primary-vpc",
+       "subnet_prefix"     : "baseline-primary-vpc",
+       "azs"               : "[\"a\",\"b\"]"
+    }
+
  }
  
