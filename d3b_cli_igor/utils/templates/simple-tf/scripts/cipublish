@@ -11,6 +11,11 @@ Publish container images to Elastic Container Registry (ECR).
 "
 }
 
+if [[ -z "${project_name}" ]]; then
+    echo "Please set project_name variable"
+   exit 1
+fi
+
 if [[ -n "${GIT_COMMIT}" ]]; then
     GIT_COMMIT="${GIT_COMMIT:0:7}"
 else

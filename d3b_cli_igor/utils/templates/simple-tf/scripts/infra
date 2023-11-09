@@ -19,11 +19,6 @@ if [[ -z "${ACCOUNT}" ]]; then
    exit 1
 fi
 
-if [[ -z "${ACCOUNT_ID}" ]]; then
-    echo "Please set ACCOUNT_ID variable (e.g. ACCOUNT_ID='123455995504')"
-   exit 1
-fi
-
 if [[ -z "${project}" ]]; then
     echo "Please set project variable (e.g. project='test-project')"
 fi
@@ -75,7 +70,7 @@ fi
             terraform plan \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvar" \
                 -out="plan.tfplan"
             ;;
         plan-destroy)
@@ -90,7 +85,7 @@ fi
                 -destroy \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvar" \
                 -out="plan.tfplan"
             ;;
         apply)
