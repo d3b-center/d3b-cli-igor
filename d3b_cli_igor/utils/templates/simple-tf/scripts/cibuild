@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-config_file=$(find . -name "config" | grep scripts)
+config_file=$(find . -name "app_config" | grep scripts)
 source $config_file
 
 if [[ -n "${ETL_DEBUG}" ]]; then
