@@ -5,6 +5,11 @@ if [ -z ~/.aws ]; then
   touch ~/.aws/credentials
 fi
 
+ echo "NOTE: If you execute this script on a remote server, open ssh tunnel to that server first:
+ ssh -L12200:localhost:12200 [your_user]@[server_name]
+ "
+ echo "Open in Web Browser: https://d3b-center.auth0.com/samlp/YWUQKnBQ25J9htQ7AWRByzhHf6lxrbQN"
+
 echo "[DEFAULT]
 idp_url=https://d3b-center.auth0.com
 client_id=YWUQKnBQ25J9htQ7AWRByzhHf6lxrbQN
@@ -32,6 +37,7 @@ else
  done < ~/.saml_menu
  echo "Please choose your option: "
  read option
+ echo "Open in Web Browser: https://d3b-center.auth0.com/samlp/YWUQKnBQ25J9htQ7AWRByzhHf6lxrbQN"
  saml-login -c `echo $menu | cut -d'|' -f $((option +1)) | awk -F"[" '{print $1}'` aws-assume-role
 fi
 
