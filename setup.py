@@ -34,6 +34,8 @@ setuptools.setup(
     package_data={
         'd3b_cli_igor.deploy_ops': ['templates/*.tmpl'],
         'd3b_cli_igor.deploy_ops': ['config/*.json'],
+        'd3b_cli_igor.deploy_ops': ['config/*.yaml'],
+        'd3b_cli_igor.deploy_ops': ['config/**'],
         'd3b_cli_igor.utils': ['templates/*/**'],
         'd3b_cli_igor': ['config/*.json'],
     },

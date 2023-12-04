@@ -9,7 +9,19 @@ Installation
 Recommended Installation
 ------------------------
 
-We recommend installing IGOR with [`pipx`](https://pypa.github.io/pipx). `pipx` can be installed on MacOS with `brew` and on  Linux and Windows with `pip`. `pipx` is recommended over other methods because it installs the CLI in its own virtual environment and then puts the CLI on your machine's `PATH`. Please follow the instructions for installing `pipx` [here](https://pypa.github.io/pipx/installation/)
+We recommend installing using Docker. However, dev-env-tunnel command yet does not work  with Docker install.
+
+~~~sh
+git clone git@github.com:d3b-center/d3b-cli-igor.git
+cd d3b-cli-igor
+docker build . -tag igor:latest
+docker run -v $HOME/.aws/credentials:/.aws/credentials -i -p 12200:12200 igor:latest igor
+~~~
+
+Installation with pipx
+----------------------
+
+Installing IGOR with [`pipx`](https://pypa.github.io/pipx). `pipx` can be installed on MacOS with `brew` and on  Linux and Windows with `pip`. `pipx` is recommended over other methods because it installs the CLI in its own virtual environment and then puts the CLI on your machine's `PATH`. Please follow the instructions for installing `pipx` [here](https://pypa.github.io/pipx/installation/)
 
 After installing `pipx`, to install IGOR, run:
 
