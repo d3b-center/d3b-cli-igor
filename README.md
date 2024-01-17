@@ -206,9 +206,7 @@ Igor will cleanup non-active images from specified repositories. It will check E
 igor ecr_cleanup --repos test_ecr, test1_ecr
 ~~~
 
-In this example, "igor" will generate files based on the "simple-tf" template. It will replace placeholders for account, environment, project, region with values supplied values. Additionally, igor will replace values in templates that found in accounts_info.json file. 
-In our case it will look up a bucket for terraform state files. 
-You can add more templates here:
+This will remove all inactive images. Inactive images - images that are not used in current batch, ecs or lambda definitions.
 
 ~~~
 d3b_cli_igor/utils/templates
