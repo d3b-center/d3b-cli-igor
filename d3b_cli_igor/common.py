@@ -30,8 +30,8 @@ def get_account_info():
         account_information = json.load(json_file)
     return account_information
 
-def setup(client_name=""):
-    client = boto3.client(client_name)
+def setup(client_name="", region="us-east-1"):
+    client = boto3.client(client_name, region_name=region)
     return client
 
 
