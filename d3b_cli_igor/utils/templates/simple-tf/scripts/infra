@@ -70,7 +70,7 @@ fi
             terraform plan \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvar" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
                 -out="plan.tfplan"
             ;;
         plan-destroy)
@@ -85,7 +85,7 @@ fi
                 -destroy \
                 -compact-warnings \
                 -var="image_tag=${GIT_COMMIT}" \
-                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvar" \
+                -var-file="${ACCOUNT}/${REGION}/${ENVIRONMENT}/variables.tfvars" \
                 -out="plan.tfplan"
             ;;
         apply)
