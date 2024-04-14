@@ -3,6 +3,7 @@ import click
 import boto3
 import sys 
 import time
+import json
 import d3b_cli_igor.common, d3b_cli_igor.log_ops.app_logs, d3b_cli_igor.app_ops.ecs_deployment, d3b_cli_igor.app_ops.ecr_actions, d3b_cli_igor.deploy_ops.deploy, d3b_cli_igor.deploy_ops.generate_config, d3b_cli_igor.utils.shortcuts, d3b_cli_igor.utils.diff, d3b_cli_igor.app_ops.ecs_get_info, d3b_cli_igor.app_ops.secrets, d3b_cli_igor.utils.generate_tf
 
 logger = d3b_cli_igor.common.get_logger(
@@ -35,6 +36,11 @@ def igor_cli():
 def secrets(app, environment, account, region):
     check_creds()
     d3b_cli_igor.app_ops.secrets.get_secrets(app, environment, account, region)
+
+@click.command(name="accounts")
+def accounts():
+    print(json.dumps(d3b_cli_igor.common.get_account_info(), indent=4))
+
 
 
 @click.command(name="get-logs")
@@ -203,6 +209,7 @@ def generate(project,region,account,environment,template):
 
 
 igor_cli.add_command(get_logs)
+igor_cli.add_command(accounts)
 igor_cli.add_command(ecr_cleanup)
 igor_cli.add_command(restart)
 igor_cli.add_command(get_info)
