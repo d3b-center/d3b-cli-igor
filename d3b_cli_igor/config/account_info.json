@@ -105,7 +105,7 @@
    "gic":
    {
        "state_files_bucket"    : "gic-remote-state-files",
-       "institution_naming_convention": "607423802571",
+       "institution_naming_convention": "aws-research-7225140000-d3b-gic-swb01-prod",
        "account_id"	       : "607423802571",
        "organization"          : "d3b",
        "dev_cidr"              : "[\"172.22.45.128/26\"]",
