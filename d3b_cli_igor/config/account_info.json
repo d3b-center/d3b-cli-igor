@@ -34,7 +34,7 @@
     },
    "ml-research":
    {
-       "state_files_bucket"    : "-remote-state-files",
+       "state_files_bucket"    : "ml-research-remote-state-files",
        "institution_naming_convention": "aws-research-7225140000-d3b-ml-research01-dev",
        "account_id"	       : "381376188863",
        "organization"          : "d3b",
@@ -44,6 +44,76 @@
        "domain_internal"       : "aws-research-7225140000-d3b-ml-research01-dev.aws.cloud.chop.edu",
        "vpc_prefix"            : "apps",
        "subnet_prefix"         : "apps",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
+   "dewrangled-dev":
+   {
+       "state_files_bucket"    : "dewrangled-dev-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-dewrangle01-dev",
+       "account_id"	       : "253288153871",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.45.64/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-dewrangle01-dev.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-dewrangle01-dev.aws.cloud.chop.edu",
+       "vpc_prefix"            : "baseline-primary-vpc",
+       "subnet_prefix"         : "baseline-primary-subnet",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
+   "dewrangled-qa":
+   {
+       "state_files_bucket"    : "dewrangled-qa-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-d3bdewrangle-qa01-tst",
+       "account_id"	       : "514113741856",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.44.192/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-d3bdewrangle-qa01-tst.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-d3bdewrangle-qa01-tst.aws.cloud.chop.edu",
+       "vpc_prefix"            : "baseline-primary-vpc",
+       "subnet_prefix"         : "baseline-primary-subnet",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
+   "dewrangled-prd":
+   {
+       "state_files_bucket"    : "dewrangled-prd-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-d3b-dewrangle-p01-prod",
+       "account_id"	       : "163471636465",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.45.64/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-d3b-dewrangle-p01-prod.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-d3b-dewrangle-p01-prod.aws.cloud.chop.edu",
+       "vpc_prefix"            : "baseline-primary-vpc",
+       "subnet_prefix"         : "baseline-primary-subnet",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
+   "genai":
+   {
+       "state_files_bucket"    : "genai-remote-state-files",
+       "institution_naming_convention": "aws-research-7225140000-d3baidev01-dev",
+       "account_id"	       : "205475332754",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.45.192/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-d3baidev01-dev.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-d3baidev01-dev.aws.cloud.chop.edu",
+       "vpc_prefix"            : "baseline-primary-vpc",
+       "subnet_prefix"         : "baseline-primary-subnet",
+       "azs"                   : "[\"a\",\"b\"]"
+    },
+   "gic":
+   {
+       "state_files_bucket"    : "gic-remote-state-files",
+       "institution_naming_convention": "607423802571",
+       "account_id"	       : "607423802571",
+       "organization"          : "d3b",
+       "dev_cidr"              : "[\"172.22.45.128/26\"]",
+       "instance_type"         : "db.t2.small",
+       "domain_external"       : "aws-research-7225140000-d3b-gic-swb01-prod.aws.cloud.chop.edu",
+       "domain_internal"       : "aws-research-7225140000-d3b-gic-swb01-prod.aws.cloud.chop.edu",
+       "vpc_prefix"            : "baseline-primary-vpc",
+       "subnet_prefix"         : "baseline-primary-subnet",
        "azs"                   : "[\"a\",\"b\"]"
     },
    "sandbox":
