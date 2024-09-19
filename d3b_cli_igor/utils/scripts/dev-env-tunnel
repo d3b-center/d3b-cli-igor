@@ -11,6 +11,7 @@ ctrl_c() {
 
 syslevel=$1
 cidr_blocks=$2
+username=$(whoami)
 
 if [[ ! "$syslevel" =~ ^(dev|qa|prd|service)$ ]]; then
   echo "You specified an unknown environment $1 (should be among: dev | qa | prd | service )."
@@ -95,7 +96,7 @@ fi
 echo "Found instance ${INSTANCE_ID}. Connecting"
 
 echo "ec2-ssh"
-ec2-ssh --region us-east-1 `whoami`@"$INSTANCE_ID" -L $port:"$INSTANCE_IP":22 -fN
+ec2-ssh --region us-east-1 "$username"@"$INSTANCE_ID" -L $port:"$INSTANCE_IP":22 -fN
 
 sed '/localhost/d' ~/.ssh/known_hosts >~/.ssh/known_hosts_new
 cp ~/.ssh/known_hosts_new ~/.ssh/known_hosts
