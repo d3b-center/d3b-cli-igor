@@ -117,6 +117,15 @@ def dev_env_tunnel(environment,cidr_block):
     check_creds()
     d3b_cli_igor.utils.shortcuts.dev_env_tunnel(environment,cidr_block)
 
+@click.command(name="tunnel-to-host")
+@click.option("--instance_id", nargs=1, required=True)
+@click.option("--port", nargs=1, default="", required=True)
+@click.option("--local_port", nargs=1, default="", required=True)
+@click.option("--host", nargs=1, default="", required=True)
+def tunnel_to_host(instance_id,port,local_port,host):
+    check_creds()
+    d3b_cli_igor.utils.shortcuts.tunnel_to_host(instance_id,port,local_port,host)
+
 @click.command(name="diff")
 @click.option(
     "--file1",
@@ -223,6 +232,7 @@ igor_cli.add_command(github_open)
 igor_cli.add_command(onboarding)
 igor_cli.add_command(awslogin)
 igor_cli.add_command(dev_env_tunnel)
+igor_cli.add_command(tunnel_to_host)
 igor_cli.add_command(diff)
 igor_cli.add_command(split_files)
 

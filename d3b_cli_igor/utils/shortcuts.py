@@ -13,6 +13,7 @@ github_open_script = "github_open"
 onboarding_script = "onboarding"
 awslogin_script = "awslogin"
 dev_env_tunnel_script = "dev-env-tunnel"
+tunnel_to_host_script = "tunnel-to-host"
 
 path = os.path.dirname(__file__)
 
@@ -47,6 +48,17 @@ def dev_env_tunnel(environment,cidr_block):
         sts.get_caller_identity()
         print("Credentials are valid.")
         os.system(dev_env_tunnel_script + " " + environment + " " + cidr_block)
+    except botocore.exceptions.ClientError:
+        print("Credentials are NOT valid. You might want to execute : igor awslogin and export AWS_PROFILE=<profile_name> in order to set credentials.")
+    except botocore.exceptions.NoCredentialsError:
+        print("Credentials are NOT valid. You might want to execute : igor awslogin and export AWS_PROFILE=<profile_name> in order to set credentials.")
+
+def tunnel_to_host(instance_id,port,local_port,host):
+    sts = boto3.client('sts')
+    try:
+        sts.get_caller_identity()
+        print("Credentials are valid.")
+        os.system(tunnel_to_host_script + " " + instance_id + " " + port + " " + local_port + " " + host)
     except botocore.exceptions.ClientError:
         print("Credentials are NOT valid. You might want to execute : igor awslogin and export AWS_PROFILE=<profile_name> in order to set credentials.")
     except botocore.exceptions.NoCredentialsError:
