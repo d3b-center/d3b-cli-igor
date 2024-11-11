@@ -212,6 +212,19 @@ This will remove all inactive images. Inactive images - images that are not used
 d3b_cli_igor/utils/templates
 ~~~
 
+tunnel-to-host
+-------------
+
+Igor will tunnel to a host through intermediate EC2 instance that has SSM enabled. 
+
+***Usage***
+
+~~~
+igor tunnel-to-host --instance_id "i-0b39394832838" --port 5432 --local_port 5432 --host some-database-in-vpc.ctc077.us-east-1.rds.amazonaws.com
+~~~
+
+This will open port 5432 on localhost.
+
 Developing Igor
 ===============
 

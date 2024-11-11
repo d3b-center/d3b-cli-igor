@@ -1,0 +1,18 @@
+#!/bin/bash
+
+INSTANCE_ID=""
+
+if [ -z $1 ]; then
+  echo "getting info"
+	info=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[?Tags[?Key=='Name']|[?Value=='$ORG-infra-bastion-ssm-ec2-$syslevel-0']].[InstanceId,PrivateIpAddress]" --output text | tail -1)
+INSTANCE_ID=$(echo "$info" | awk '{ print $1 }')
+INSTANCE_IP=$(echo "$info" | awk '{ print $2 }')
+  if [ -z "$INSTANCE_ID" ]; then
+    echo "Could not find bastion host. Please contact DevOps"
+    exit 1
+  fi
+  else
+  INSTANCE_ID="${1}"
+fi
+
+aws ssm start-session --target "${INSTANCE_ID}" --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters '{"portNumber":["'$2'"],"localPortNumber":["'$3'"],"host":["'$4'"]}'
