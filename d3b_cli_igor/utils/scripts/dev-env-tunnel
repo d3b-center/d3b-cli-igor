@@ -46,23 +46,6 @@ fi
 
 account_id=$(echo "$sts_info" | awk '{ print $1 }')
 echo "Account ID: $account_id"
-echo "$ORG"
-if [ "$account_id" = "684194535433" ]; then
-  echo "Running in AWS account: $account_id"
-  export ORG='d3b-d3b'
-  export domain="d3b.io"
-  export jenkins_url="aws-infra-jenkins-service.d3b.io"
-elif [ "$account_id" = "232196027141" ]; then
-  echo "Running in AWS account: $account_id"
-  export ORG='aws'
-  export domain="kf-strides.org"
-  export jenkins_url="aws-infra-jenkins-service.kf-strides.org"
-elif [ "$account_id" = "373997854230" ]; then
-  echo "Running in AWS account: $account_id"
-  export ORG='aws'
-  export domain="includedcc.org"
-  export jenkins_url="aws-infra-jenkins-service.373997854230.d3b.io"
-fi
 
 if [ -z "$AWS_PROFILE" ]; then
   awslogin short
