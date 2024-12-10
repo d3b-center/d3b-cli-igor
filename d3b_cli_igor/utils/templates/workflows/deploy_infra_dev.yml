@@ -1,0 +1,40 @@
+name: Deploy Infra - Dev
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    types:
+      - closed
+  push:
+    branches:
+      - 'feature/*/**'
+      - 'bugfix/*/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  get-user-env:
+    runs-on: ubuntu-latest
+    outputs:
+      targetEnvironment: ${{ steps.targetEnvironment.outputs.targetEnvironment }}
+    steps:
+      - name: Set target environment
+        id: targetEnvironment
+        run: |
+          # head_ref only exists in a pull request flow, otherwise ref_name is branch name
+          USERNAME=${{ github.actor }}
+          TRUNCATED_USER=$(echo ${USERNAME} | head -c4)
+          echo "targetEnvironment=${TRUNCATED_USER}" >> $GITHUB_OUTPUT
+  deploy-dev:
+    uses: ./.github/workflows/deploy_infra_base.yml
+    needs: [get-user-env]
+    with:
+      environment: "dev"
+      deployUser: ${{ needs.get-user-env.outputs.targetEnvironment }}
+      cleanup: ${{ github.event.action == 'closed' && true || false }}
+    secrets:
+      ROLE: ${{ secrets.ROLE }}
+      D3B_JENKINS_ID_RSA: ${{ secrets.D3B_JENKINS_ID_RSA }}

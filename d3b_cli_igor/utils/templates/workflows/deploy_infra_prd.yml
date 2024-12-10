@@ -1,0 +1,19 @@
+name: Deploy Infra - Prd
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-prd:
+    uses: ./.github/workflows/deploy_infra_base.yml
+    with:
+      environment: "prd"
+    secrets:
+      ROLE: ${{ secrets.ROLE }}
+      D3B_JENKINS_ID_RSA: ${{ secrets.D3B_JENKINS_ID_RSA }}

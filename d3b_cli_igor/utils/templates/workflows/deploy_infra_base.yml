@@ -1,0 +1,111 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      cleanup:
+        required: false
+        default: false
+        type: boolean
+      deployUser:
+        required: false
+        default: ""
+        type: string
+    secrets:
+      ROLE:
+        required: true
+      D3B_JENKINS_ID_RSA:
+        required: true
+
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build_worker:
+    strategy:
+      matrix:
+        include:
+          - account: {{ account }} 
+            runner: {{ account }}-linux-small
+    name: Build Image in ${{ matrix.account }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4 
+        with:
+          aws-region: {{ region }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+
+      - name: Build Worker image
+        run: |
+          export COMPONENT="app"
+          export REGION={{ region }}
+          ./deployment/scripts/build
+
+  deploy-infra:
+    strategy:
+      max-parallel: 1
+      matrix:
+        include:
+          - account: {{ account }}
+            runner: {{ account }}-linux-large
+    name: Deploy ${{ matrix.account }}.${{ inputs.environment }} infrastructure
+    runs-on:  ${{ matrix.runner }}
+    needs: build_worker
+    steps:
+      - name: Install Terraform
+        run: |
+            sudo yum install -y yum-utils
+            sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+            sudo yum -y install terraform
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: GitHub Auth 
+        uses: mobiledevops/secret-to-file-action@v1
+        with:
+            base64-encoded-secret: ${{ secrets.D3B_JENKINS_ID_RSA }}
+            filename: "id_rsa"
+            is-executable: false 
+            working-directory: "/home/ec2-user/.ssh"
+      - name: Github Auth 
+        run: |
+          chmod 400 /home/ec2-user/.ssh/id_rsa
+          ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts
+      - name: Terraform Plan
+        env:
+          ACCOUNT: ${{ matrix.account }} 
+          ENVIRONMENT: "${{ inputs.environment }}" 
+          REGION: "{{ region }}" 
+          action: ${{ inputs.cleanup && 'plan-destroy' || 'plan' }}
+          WORKSPACE: ${{ inputs.environment }}
+        id: plan 
+        run: | 
+          export COMPONENT="app"
+          ./deployment/scripts/infra ${{ env.action }}
+      - name: Terraform Apply
+        env:
+          ACCOUNT: ${{ matrix.account }}
+          ENVIRONMENT: "${{ inputs.environment }}" 
+          REGION: "{{ region }}"
+          WORKSPACE: ${{ inputs.environment }}
+          TF_LOG: "DEBUG"
+        id: apply
+        run: | 
+          export COMPONENT="app"
+          ./deployment/scripts/infra apply
+      - name: Delete Terraform Workspace
+        if: inputs.cleanup
+        run: |
+          terraform workspace select default
+          terraform workspace delete ${{ inputs.deployUser }}

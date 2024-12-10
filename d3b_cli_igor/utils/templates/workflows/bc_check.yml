@@ -1,0 +1,20 @@
+---
+name: Run Checkov
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  checkov:
+    name: Check IaC for vulnerabilities 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+
+      - name: Run Checkov
+        id: Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: deployment/terraform
